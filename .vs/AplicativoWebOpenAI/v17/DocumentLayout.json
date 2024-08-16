@@ -1,0 +1,156 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\dev\\ws\\AplicativoWebOpenAI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\aplicativowebopenai\\aplicativowebopenai\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\aplicativowebopenai\\aplicativowebopenai\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\aplicativowebopenai\\aplicativowebopenai\\services\\openaiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\services\\openaiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\aplicativowebopenai\\aplicativowebopenai\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\aplicativowebopenai\\aplicativowebopenai\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\aplicativowebopenai\\aplicativowebopenai\\aplicativowebopenai.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\aplicativowebopenai.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\aplicativowebopenai\\aplicativowebopenai\\controllers\\openaicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\controllers\\openaicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\aplicativowebopenai\\aplicativowebopenai\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "AplicativoWebOpenAI\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "AplicativoWebOpenAI\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAACQAAAAAAAAAAAAwwDsAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-16T19:30:00.185Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "AplicativoWebOpenAI\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "AplicativoWebOpenAI\\Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-16T19:18:43.95Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OpenAIService.cs",
+              "DocumentMoniker": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\Services\\OpenAIService.cs",
+              "RelativeDocumentMoniker": "AplicativoWebOpenAI\\Services\\OpenAIService.cs",
+              "ToolTip": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\Services\\OpenAIService.cs",
+              "RelativeToolTip": "AplicativoWebOpenAI\\Services\\OpenAIService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-16T19:21:37.054Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\appsettings.json",
+              "RelativeDocumentMoniker": "AplicativoWebOpenAI\\appsettings.json",
+              "ToolTip": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\appsettings.json",
+              "RelativeToolTip": "AplicativoWebOpenAI\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-08-16T19:20:18.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\Program.cs",
+              "RelativeDocumentMoniker": "AplicativoWebOpenAI\\Program.cs",
+              "ToolTip": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\Program.cs",
+              "RelativeToolTip": "AplicativoWebOpenAI\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAABUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-16T19:20:11.211Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AplicativoWebOpenAI",
+              "DocumentMoniker": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
+              "RelativeDocumentMoniker": "AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
+              "ToolTip": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
+              "RelativeToolTip": "AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-08-16T19:19:16.707Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "OpenAIController.cs",
+              "DocumentMoniker": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\Controllers\\OpenAIController.cs",
+              "RelativeDocumentMoniker": "AplicativoWebOpenAI\\Controllers\\OpenAIController.cs",
+              "ToolTip": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\Controllers\\OpenAIController.cs",
+              "RelativeToolTip": "AplicativoWebOpenAI\\Controllers\\OpenAIController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-16T19:19:04.789Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "AplicativoWebOpenAI\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "AplicativoWebOpenAI\\Controllers\\HomeController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-16T19:10:43.823Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

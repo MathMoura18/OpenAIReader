@@ -1,6 +1,0 @@
-@AplicativoWebOpenAI_HostAddress = http://localhost:5147
-
-GET {{AplicativoWebOpenAI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
