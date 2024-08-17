@@ -8,12 +8,50 @@
 </div>
 <div class="section">
     <div class="chat-box">
-        <div><strong>ChatGPT:</strong> Hello! How can I assist you today?</div>
-        <div><strong>You:</strong> I'm looking for some help with HTML.</div>
-        <div>
-            <input type="type" name="name" value="" />
-            <button>Enviar</button>
+        <div id="chat-conteiner">
+            <div><strong>ChatGPT:</strong> <p id="gpt-text">Hello! How can I assist you today?</p></div>
+            <div><strong>You:</strong> I'm looking for some help with HTML.</div>
+            <div id="input-button">
+                <input id="input-chat" onsubmit="EnviarPergunta"/>
+                <button id="button-enviar" onclick="EnviarPergunta">Enviar</button>
+            </div>
         </div>
-        <!-- Add more chat messages as needed -->
     </div>
 </div>
+
+<script>
+    function EnviarPergunta() {
+        let text = $("#input-chat").val();
+        let html = "";
+
+        if (text == null){
+            html += "<div><strong>ChatGPT:</strong> <p>Digite sua Pergunta</p></div>"
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                datatype: 'json',
+                url: '@Url.Action("CompleteSentence", "OpenAI")',
+                data: {
+                    text: text
+                },
+                beforeSend: function () {
+                    //LOADER
+                },
+                success: function (response) {
+                    if (!(text != null)) {
+                        html += "<div><strong>You:</strong>" + text + "</div>";
+                        html += "<div><strong>ChatGPT:</strong> <p>" + response + "</p></div>"
+                        $("#chat-conteiner").html(html);
+                    }
+                    else {
+                        // erro
+                    }
+                },
+                error: function (erro) {
+                    // erro
+                }
+            });
+        }
+    }
+</script>

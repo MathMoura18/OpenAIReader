@@ -53,16 +53,26 @@
         }
 
         .chat-box {
+            display: flex;
             padding: 1em;
             height: 300px;
-            overflow-y: auto;
-            background-color: #f9f9f9;
             align-items: end;
         }
 
             .chat-box div {
                 margin-bottom: 1em;
             }
+
+        #input-chat {
+            width: 100%;
+
+        }
+
+        #input-button {
+            display:flex;
+            gap: 12px;
+            justify-content: end;
+        }
     </style>
 </head>
 <body>
@@ -102,5 +112,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    
 </body>
 </html>
