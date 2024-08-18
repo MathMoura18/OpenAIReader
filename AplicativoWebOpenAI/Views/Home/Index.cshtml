@@ -10,48 +10,60 @@
     <div class="chat-box">
         <div id="chat-conteiner">
             <div><strong>ChatGPT:</strong> <p id="gpt-text">Hello! How can I assist you today?</p></div>
-            <div><strong>You:</strong> I'm looking for some help with HTML.</div>
+            <div id="chat-answer">
+
+            </div>
             <div id="input-button">
-                <input id="input-chat" onsubmit="EnviarPergunta"/>
-                <button id="button-enviar" onclick="EnviarPergunta">Enviar</button>
+                <input id="input-chat" onsubmit="EnviarPergunta()"/>
+                <button id="button-enviar" onclick="EnviarPergunta()">Enviar</button>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    function EnviarPergunta() {
-        let text = $("#input-chat").val();
-        let html = "";
+@section Scripts {
+    <script>
+        function EnviarPergunta() {
+            let text = $('#input-chat').val();
+            let html = "";
 
-        if (text == null){
-            html += "<div><strong>ChatGPT:</strong> <p>Digite sua Pergunta</p></div>"
-        }
-        else {
-            $.ajax({
-                type: 'POST',
-                datatype: 'json',
-                url: '@Url.Action("CompleteSentence", "OpenAI")',
-                data: {
-                    text: text
-                },
-                beforeSend: function () {
-                    //LOADER
-                },
-                success: function (response) {
-                    if (!(text != null)) {
-                        html += "<div><strong>You:</strong>" + text + "</div>";
-                        html += "<div><strong>ChatGPT:</strong> <p>" + response + "</p></div>"
-                        $("#chat-conteiner").html(html);
+            if (StrIsNull(text)){
+                html += "<div><strong>ChatGPT:</strong> <p>Insert your question</p></div>";
+                $('#chat-answer').html(html);
+                console.log('if text == null');
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: '@Url.Action("CompleteSentence", "OpenAI")',
+                    data: { text: text },
+                    success: function (result) {
+                        if (!StrIsNull(text)) {
+                            $("#input-chat").val("");
+                            html += "<div><strong>You:</strong>" + text + "</div>";
+                            html += "<div><strong>ChatGPT:</strong> <p>" + result + "</p></div>";
+                            $('#chat-answer').html(html);
+                        }
+                        else {
+                            // erro
+                            console.log('else do ajax');
+                        }
+                    },
+                    error: function (erro) {
+                        html += "<div><strong>Error in connection with OpenAI</strong></div>";
+                        $('#chat-answer').html(html);
+                        console.log(`${erro.statusText} ${erro.responseText}`);
                     }
-                    else {
-                        // erro
-                    }
-                },
-                error: function (erro) {
-                    // erro
-                }
-            });
+                });
+            }
         }
-    }
-</script>
+
+        function StrIsNull(String) {
+            if (String == null || String == "" || String == undefined || String == "undefined")
+                return true;
+            else
+                return false;
+        }
+    </script>
+}

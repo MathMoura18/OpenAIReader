@@ -5,21 +5,34 @@ namespace AplicativoWebOpenAI.Controllers
 {
     public class OpenAIController : Controller
     {
-        private readonly ILogger<OpenAIController> _Logger;
-        private readonly IOpenAIService _openAIService;
-
-        public OpenAIController(ILogger<OpenAIController> logger, IOpenAIService openAIService)
+        public OpenAIController(IConfiguration configuration)
         {
-            _Logger = logger;
-            _openAIService = openAIService;
+            Configuration = configuration;
         }
 
+        public IConfiguration Configuration { get; }
+
+        /// <summary>
+        /// Contact AI with a question
+        /// </summary>
+        /// <param name="text">Your question to AI</param>
+        /// <returns>
+        /// </returns>
+        /// <response code="200">Sucess</response>
         [HttpPost()]
         [Route("CompleteSentence")]
-        public async Task<IActionResult> CompleteSentence(string text)
+        public async Task<JsonResult> CompleteSentence(string text)
         {
-            var result = await _openAIService.CompleteSentence(text);
-            return Ok(result);
+            try
+            {
+                string key = Configuration.GetValue<string>("OpenAI:Key");
+                var result = await OpenAIService.CompleteSentence(text, key);
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
