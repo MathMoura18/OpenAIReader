@@ -3,8 +3,9 @@
 }
 <div class="section">
     <div class="button-container">
-        <button>Upload</button>
-    </div>
+        <button onclick="FormatPDF">Upload PDF</button>
+@*         <iframe src="C:\Users\Matheus\Documents\Curriculo\MatheusMouraEng.pdf"/>
+ *@    </div>
 </div>
 <div class="section">
     <div class="chat-box">
@@ -14,18 +15,58 @@
 
             </div>
             <div id="input-button">
-                <input id="input-chat" onsubmit="EnviarPergunta()"/>
-                <button id="button-enviar" onclick="EnviarPergunta()">Enviar</button>
+                <input id="input-chat" placeholder="Enter your question..."/>
+                <button id="button-enviar" onclick="EnviarPergunta()"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 </div>
 
+<style>
+    #input-button {
+        display: flex;
+        gap: 12px;
+    }
+
+    #input-chat {
+        display: flex;
+        width: 100%;
+        border: 1px solid #555555;
+        border-radius: 20px;
+        background-color: gray;
+        color: white;
+    }
+
+        #input-chat:focus{
+            background-color: #444444;
+            border: 2px solid white;
+        }
+
+    #button-enviar {
+        background-color: #555555;
+        border: none;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        border-radius: 50%;
+        transition: background-color 0.2s;
+    }
+
+        #button-enviar:hover{
+            background-color: #222222;
+        }
+</style>
+
 @section Scripts {
     <script>
+        let html = "";
+
         function EnviarPergunta() {
             let text = $('#input-chat').val();
-            let html = "";
 
             if (StrIsNull(text)){
                 html += "<div><strong>ChatGPT:</strong> <p>Insert your question</p></div>";
@@ -58,6 +99,12 @@
                 });
             }
         }
+
+        $("#input-chat").on('keyup', function (e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                EnviarPergunta();
+            }
+        });
 
         function StrIsNull(String) {
             if (String == null || String == "" || String == undefined || String == "undefined")

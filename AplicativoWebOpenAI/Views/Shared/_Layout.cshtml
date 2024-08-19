@@ -3,8 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AplicativoWebOpenAI</title>
+    <title>@ViewData["Title"] - OpenAI Reader</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AplicativoWebOpenAI.styles.css" asp-append-version="true" />
     <style>
@@ -28,20 +29,18 @@
 
         main {
             display: flex;
-            max-width: 1200px;
-            margin: 0 auto;
             padding: 1em;
-            box-sizing: border-box;
             gap: 1rem;
+            width: 100vw;
+            background-color: #E1EFE2;
         }
 
         .section {
             flex: 1;
             padding: 1em;
             box-sizing: border-box;
-            border: 1px solid #ccc;
+            border: 2px solid #ccc;
             border-radius: 5px;
-            width: 10000px;
             height: 87vh;
         }
 
@@ -55,30 +54,23 @@
         .chat-box {
             display: flex;
             padding: 1em;
-            height: 300px;
+            height: 100%;
+            width: 100%;
             align-items: end;
         }
 
             .chat-box div {
                 margin-bottom: 1em;
+                width: 100%;
             }
 
-        #input-chat {
-            width: 100%;
-        }
-
-        #input-button {
-            display: flex;
-            gap: 12px;
-            justify-content: end;
-        }
     </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow" style="padding: 0px;">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h1 style="color: white;">PDF Reader OpenAI</h1></a>
+            <div class="container-fluid" style="justify-content:center">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h1 style="color: white;">OpenAI Reader</h1></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -97,7 +89,7 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main class="">
             @RenderBody()
         </main>
     </div>
