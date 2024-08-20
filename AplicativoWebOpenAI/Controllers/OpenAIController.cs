@@ -1,5 +1,6 @@
 ﻿using AplicativoWebOpenAI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace AplicativoWebOpenAI.Controllers
 {
@@ -19,14 +20,17 @@ namespace AplicativoWebOpenAI.Controllers
         /// <returns>
         /// </returns>
         /// <response code="200">Sucess</response>
-        [HttpPost()]
-        [Route("CompleteSentence")]
-        public async Task<JsonResult> CompleteSentence(string text)
+        [HttpGet]
+        [Route("GetSentence")]
+        public async Task<JsonResult> GetSentence(string text)
         {
             try
             {
                 string key = Configuration.GetValue<string>("OpenAI:Key");
-                var result = await OpenAIService.CompleteSentence(text, key);
+
+                var promptResponse = await OpenAIService.GetSentence(text, key);
+                var result = promptResponse.message.content;
+
                 return Json(result);
             }
             catch (Exception ex)

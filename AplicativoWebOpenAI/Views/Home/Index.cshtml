@@ -11,7 +11,7 @@
     <div class="chat-box">
         <div id="chat-conteiner">
             <div><strong>ChatGPT:</strong> <p id="gpt-text">Hello! How can I assist you today?</p></div>
-            <div id="chat-answer">
+            <div id="chat">
 
             </div>
             <div id="input-button">
@@ -59,42 +59,89 @@
         #button-enviar:hover{
             background-color: #222222;
         }
+
+    #gpt-text {
+        position: relative;
+    }
+
+    #gpt-text::before {
+        position:absolute;
+        width: 0; 
+        overflow:hidden;
+        animation: animate 10s linear;
+        border-right: 2px solid gray;
+    }
+    
+    @@keyframes animate {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: 100%;
+        }
+    }
+
 </style>
 
 @section Scripts {
     <script>
-        let html = "";
+        const chatContainer = document.getElementById("chat"); 
 
         function EnviarPergunta() {
             let text = $('#input-chat').val();
+            DisableChat();
 
             if (StrIsNull(text)){
-                html += "<div><strong>ChatGPT:</strong> <p>Insert your question</p></div>";
-                $('#chat-answer').html(html);
-                console.log('if text == null');
+                const message = document.createElement('div');
+                message.classList.add("chat")
+                let html = "<div><strong>ChatGPT:</strong> <p>Insert your question</p></div>";
+                message.innerHTML = html;
+                chatContainer.append(message)
+                
+                AbleChat();
             }
             else {
+                $("#input-chat").val("");
+                const message = document.createElement('div');
+                let html = "<div><strong>You:</strong>" + text + "</div>";
+                message.innerHTML = html; 
+                chatContainer.append(message)
+                
                 $.ajax({
-                    type: "POST",
+                    type: "GET",
                     dataType: 'json',
-                    url: '@Url.Action("CompleteSentence", "OpenAI")',
+                    url: '@Url.Action("GetSentence", "OpenAI")',
                     data: { text: text },
                     success: function (result) {
-                        if (!StrIsNull(text)) {
-                            $("#input-chat").val("");
-                            html += "<div><strong>You:</strong>" + text + "</div>";
-                            html += "<div><strong>ChatGPT:</strong> <p>" + result + "</p></div>";
-                            $('#chat-answer').html(html);
+                        if (!StrIsNull(result)) {
+                            const message = document.createElement('div');
+                            message.classList.add("chat")
+                            let html = '<strong>ChatGPT:</strong> <p id="gpt-text">' + result + '</p>';
+                            message.innerHTML = html;
+                            chatContainer.append(message)
+
+                            AbleChat()
                         }
                         else {
-                            // erro
-                            console.log('else do ajax');
+                            const message = document.createElement('div');
+                            message.classList.add("chat")
+                            let html = "<strong>Error with OpenAI</strong>";
+                            message.innerHTML = html;
+                            chatContainer.append(message)
+
+                            AbleChat()
                         }
                     },
                     error: function (erro) {
-                        html += "<div><strong>Error in connection with OpenAI</strong></div>";
-                        $('#chat-answer').html(html);
+                        const message = document.createElement('div');
+                        message.classList.add("chat")
+                        let html = "<strong>Error in connection with OpenAI</strong>";
+                        message.innerHTML = html;
+                        chatContainer.append(message)
+
                         console.log(`${erro.statusText} ${erro.responseText}`);
+                        AbleChat()
                     }
                 });
             }
@@ -111,6 +158,16 @@
                 return true;
             else
                 return false;
+        }
+
+        function AbleChat (){
+            $('#input-chat').prop("disabled", false);
+            $('#button-enviar').prop("disabled", false);
+        }
+
+        function DisableChat() {
+            $('#input-chat').prop("disabled", true);
+            $('#button-enviar').prop("disabled", true);
         }
     </script>
 }
