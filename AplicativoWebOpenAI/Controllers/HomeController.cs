@@ -23,5 +23,11 @@ namespace AplicativoWebOpenAI.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public FileStreamResult GetPDF()
+        {
+            FileStream fs = new FileStream("C:\\Users\\Matheus\\Documents\\MatheusMouraEng_merged.pdf", FileMode.Open, FileAccess.Read);
+            return File(fs, "application/pdf");
+        }
     }
 }

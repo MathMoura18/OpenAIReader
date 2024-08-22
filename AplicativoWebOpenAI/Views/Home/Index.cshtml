@@ -3,9 +3,11 @@
 }
 <div class="section">
     <div class="file-container">
-        <input type="file" id="input-file"/>
-@*         <iframe src="C:\Users\Matheus\Documents\Curriculo\MatheusMouraEng.pdf"/>
- *@    </div>
+        <form oninput="SendFileToAI()" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" id="input-file"/>
+            <label for="input-file"><i class="fa-solid fa-upload"></i>Upload File</label>
+        </form>
+    </div>
 </div>
 <div class="section">
     <div class="chat-box">
@@ -82,6 +84,45 @@
         }
     }
 
+    input[type="file"]{
+        display: none;
+    }
+
+    label {
+        display: inline-block;
+        text-transform: uppercase;
+        color: white;
+        background: #0069D9;
+        text-align: center;
+        padding: 15px 40px;
+        font-size: 18px;
+        letter-spacing: 1.5px;
+        user-select: none;
+        cursor: pointer;
+        box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
+        border-radius: 3px;
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+        -webkit-transition-property: box-shadow, transform;
+        transition-property: box-shadow, transform;
+    }
+
+        label:active {
+            -webkit-transform: scale(0.9);
+            transform: scale(0.9);
+        }
+
+        label:hover, label:focus {
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+
+    label i {
+        font-size: 20px;
+        margin-right: 10px;
+    }
+
 </style>
 
 @section Scripts {
@@ -89,9 +130,7 @@
         const chatContainer = document.getElementById("chat");
         const fileContainer = $(".file-container");
         const inputFile = $("#input-file");
-        const file = document.getElementById("input-file").files[0];
-
-        inputFile.on("change", SendFileToAI());
+        const file = document.querySelector('#input-file').files[0];
 
         function EnviarPergunta() {
             let text = $('#input-chat').val();
@@ -153,13 +192,16 @@
         }
 
         function SendFileToAI() {
+            let text = $('#input-chat').val();
             ShowFileinView();
+            console.log(text);
+            DisableChat();
 
             $.ajax({
-                type: "GET",
+                type: "POST",
                 dataType: 'json',
-                url: '@Url.Action("fdsa", "OpenAI")',
-                data: { text: text },
+                url: '@Url.Action("PostUserFile", "OpenAI")',
+                data: { file: file, text: text },
                 success: function (result) {
                     if (!StrIsNull(result)) {
                         const message = document.createElement('div');
@@ -194,17 +236,8 @@
         }
 
         function ShowFileinView () {
-            console.log(file);
-            const img = document.createElement("img");
-            img.classList.add("file-container");
-            img.file = file;
-            fileContainer.append(file);
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+            const htmlPDF = '<object data="@Url.Action("GetPDF", "Home")" type="application/pdf"></object>';
+            $(".file-container").html(htmlPDF);
         }
 
         $("#input-chat").on('keyup', function (e) {

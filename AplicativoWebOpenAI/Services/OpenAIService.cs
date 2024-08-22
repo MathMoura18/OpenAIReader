@@ -3,6 +3,15 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using OpenAI_API.Models;
 using System.Text;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
+using LangChain;
+using LangChain.DocumentLoaders;
+using LangChain.Providers.OpenAI.Predefined;
+using LangChain.Providers.OpenAI;
+using LangChain.Databases.Sqlite;
+using LangChain.Extensions;
 
 namespace AplicativoWebOpenAI.Services
 {
@@ -47,6 +56,31 @@ namespace AplicativoWebOpenAI.Services
             {
                 return $"Error in calling AI API: {ex}";
             }
+        }
+
+        public async static Task<string> GetSentenceFromUserFile(string AIKey, IFormFile userFile, string question)
+        {
+            var provider = new OpenAiProvider(AIKey);
+
+            var llm = new OpenAiChatModel(provider, "gpt-4");
+            var embeddingModel = new TextEmbeddingV3SmallModel(provider);
+
+            using var vectorDatabase = new SqLiteVectorDatabase(dataSource: "vectors.db");
+            var vectorCollection = await vectorDatabase.AddDocumentsFromAsync<PdfPigPdfLoader>(
+                embeddingModel, // Used to convert text to embeddings
+                dimensions: 1536, // Should be 1536 for TextEmbeddingV3SmallModel
+                dataSource: DataSource.FromUrl($"{userFile}"),
+                textSplitter: null); // Default is CharacterTextSplitter(ChunkSize = 4000, ChunkOverlap = 200)
+
+            var answer = await llm.GenerateAsync(
+            $"""
+             Use the following pieces of context to answer the question at the end.
+             If the answer is not in context then just say that you don't know, don't try to make up an answer.
+             Question: {question}
+             Helpful Answer:
+             """, cancellationToken: CancellationToken.None).ConfigureAwait(false);
+
+            return answer;
         }
     }
 }
