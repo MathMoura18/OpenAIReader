@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "R0dod1pR3S8=",
+  "dgSpecHash": "A4EJ6D3gOVU=",
   "success": true,
   "projectFilePath": "C:\\dev\\ws\\PDFReaderOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Matheus\\.nuget\\packages\\bootstrap\\5.3.3\\bootstrap.5.3.3.nupkg.sha512",
     "C:\\Users\\Matheus\\.nuget\\packages\\microsoft.aspnetcore\\2.2.0\\microsoft.aspnetcore.2.2.0.nupkg.sha512",
     "C:\\Users\\Matheus\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Matheus\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",

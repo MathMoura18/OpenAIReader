@@ -8,37 +8,45 @@ namespace AplicativoWebOpenAI.Services
 {
     public class OpenAIService
     {
-        public async static Task<Choice> GetSentence(string text, string key)
+        public async static Task<string> GetAISentence(string text, string key)
         {
-            var result = new OpenAIViewModel();
-
-            using (var httpClient = new HttpClient())
+            try
             {
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", key);
+                var result = new OpenAIViewModel();
 
-                List<Message> listMessageModel = new List<Message>();
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", key);
 
-                Message messageSystem = new Message();
-                messageSystem.role = "system";
-                messageSystem.content = "You are a helpful assistant.";
-                listMessageModel.Add(messageSystem);
+                    List<Message> listMessageModel = new List<Message>();
 
-                Message messageUser = new Message();
-                messageUser.role = "user";
-                messageUser.content = $"{text}";
-                listMessageModel.Add(messageUser);
+                    Message messageSystem = new Message();
+                    messageSystem.role = "system";
+                    messageSystem.content = "You are a helpful assistant.";
+                    listMessageModel.Add(messageSystem);
 
-                var model = new OpenAIInputModel(listMessageModel);
+                    Message messageUser = new Message();
+                    messageUser.role = "user";
+                    messageUser.content = $"{text}";
+                    listMessageModel.Add(messageUser);
 
-                var requestBody = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-                var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+                    var model = new OpenAIInputModel(listMessageModel);
 
-                var response = await httpClient.PostAsync("https://api.openai.com/v1/chat/completions", content);
+                    var requestBody = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+                    var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
-                result = await response.Content.ReadFromJsonAsync<OpenAIViewModel>();
+                    var response = await httpClient.PostAsync("https://api.openai.com/v1/chat/completions", content);
+
+                    result = await response.Content.ReadFromJsonAsync<OpenAIViewModel>();
+                }
+
+                var promptResponse = result.choices.First();
+                return promptResponse.message.content;
             }
-
-            return result.choices.First();
+            catch (Exception ex)
+            {
+                return $"Error in calling AI API: {ex}";
+            }
         }
     }
 }

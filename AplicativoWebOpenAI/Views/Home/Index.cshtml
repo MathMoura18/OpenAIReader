@@ -1,9 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "PDF Reader OpenAI";
+    ViewData["Title"] = "Home";
 }
 <div class="section">
-    <div class="button-container">
-        <button onclick="FormatPDF">Upload PDF</button>
+    <div class="file-container">
+        <input type="file" id="input-file"/>
 @*         <iframe src="C:\Users\Matheus\Documents\Curriculo\MatheusMouraEng.pdf"/>
  *@    </div>
 </div>
@@ -86,7 +86,12 @@
 
 @section Scripts {
     <script>
-        const chatContainer = document.getElementById("chat"); 
+        const chatContainer = document.getElementById("chat");
+        const fileContainer = $(".file-container");
+        const inputFile = $("#input-file");
+        const file = document.getElementById("input-file").files[0];
+
+        inputFile.on("change", SendFileToAI());
 
         function EnviarPergunta() {
             let text = $('#input-chat').val();
@@ -111,7 +116,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: 'json',
-                    url: '@Url.Action("GetSentence", "OpenAI")',
+                    url: '@Url.Action("GetAISentence", "OpenAI")',
                     data: { text: text },
                     success: function (result) {
                         if (!StrIsNull(result)) {
@@ -136,15 +141,70 @@
                     error: function (erro) {
                         const message = document.createElement('div');
                         message.classList.add("chat")
-                        let html = "<strong>Error in connection with OpenAI</strong>";
+                        let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
                         message.innerHTML = html;
-                        chatContainer.append(message)
+                        body.append(message)
 
                         console.log(`${erro.statusText} ${erro.responseText}`);
                         AbleChat()
                     }
                 });
             }
+        }
+
+        function SendFileToAI() {
+            ShowFileinView();
+
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                url: '@Url.Action("fdsa", "OpenAI")',
+                data: { text: text },
+                success: function (result) {
+                    if (!StrIsNull(result)) {
+                        const message = document.createElement('div');
+                        message.classList.add("chat")
+                        let html = '<strong>ChatGPT:</strong> <p id="gpt-text">' + result + '</p>';
+                        message.innerHTML = html;
+                        chatContainer.append(message)
+
+                        AbleChat()
+                    }
+                    else {
+                        const message = document.createElement('div');
+                        message.classList.add("chat")
+                        let html = "<strong>Error with OpenAI</strong>";
+                        message.innerHTML = html;
+                        chatContainer.append(message)
+
+                        AbleChat()
+                    }
+                },
+                error: function (erro) {
+                    const message = document.createElement('div');
+                    message.classList.add("chat")
+                    let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
+                    message.innerHTML = html;
+                    body.append(message)
+
+                    console.log(`${erro.statusText} ${erro.responseText}`);
+                    AbleChat()
+                }
+            });
+        }
+
+        function ShowFileinView () {
+            console.log(file);
+            const img = document.createElement("img");
+            img.classList.add("file-container");
+            img.file = file;
+            fileContainer.append(file);
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         }
 
         $("#input-chat").on('keyup', function (e) {

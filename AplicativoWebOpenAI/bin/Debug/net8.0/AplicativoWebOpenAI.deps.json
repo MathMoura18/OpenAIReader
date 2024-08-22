@@ -10,12 +10,14 @@
         "dependencies": {
           "Microsoft.AspNetCore": "2.2.0",
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
-          "OpenAI": "1.11.0"
+          "OpenAI": "1.11.0",
+          "bootstrap": "5.3.3"
         },
         "runtime": {
           "AplicativoWebOpenAI.dll": {}
         }
       },
+      "bootstrap/5.3.3": {},
       "Microsoft.AspNetCore/2.2.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Diagnostics": "2.2.0",
@@ -752,6 +754,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "bootstrap/5.3.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iQohLXwneNPDyW4x24mKQ90qGwT5WTtNl3KybL0koTluJPjKYxFCU/NTLHsJiWR2n7VmnwcpAgr8TR42KNmPOg==",
+      "path": "bootstrap/5.3.3",
+      "hashPath": "bootstrap.5.3.3.nupkg.sha512"
     },
     "Microsoft.AspNetCore/2.2.0": {
       "type": "package",
