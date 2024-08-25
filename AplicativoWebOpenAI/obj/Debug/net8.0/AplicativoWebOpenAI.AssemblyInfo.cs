@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AplicativoWebOpenAI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c8a17ad8d0cd59025f44ece0cfd1eb43312c0766")]
 [assembly: System.Reflection.AssemblyProductAttribute("AplicativoWebOpenAI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AplicativoWebOpenAI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

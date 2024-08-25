@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj": {}
+    "C:\\dev\\ws\\PDFReaderOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj": {}
   },
   "projects": {
-    "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj": {
+    "C:\\dev\\ws\\PDFReaderOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
+        "projectUniqueName": "C:\\dev\\ws\\PDFReaderOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
         "projectName": "AplicativoWebOpenAI",
-        "projectPath": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
+        "projectPath": "C:\\dev\\ws\\PDFReaderOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
         "packagesPath": "C:\\Users\\Matheus\\.nuget\\packages\\",
-        "outputPath": "C:\\dev\\ws\\AplicativoWebOpenAI\\AplicativoWebOpenAI\\obj\\",
+        "outputPath": "C:\\dev\\ws\\PDFReaderOpenAI\\AplicativoWebOpenAI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Users\\Matheus\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder",
@@ -26,6 +26,7 @@
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\FastReports\\FastReport.Net\\Nugets": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
@@ -51,9 +52,41 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "LangChain": {
+              "target": "Package",
+              "version": "[0.15.0, )"
+            },
+            "LangChain.Databases.Sqlite": {
+              "target": "Package",
+              "version": "[0.15.2, )"
+            },
+            "LangChain.DocumentLoaders.Pdf": {
+              "target": "Package",
+              "version": "[0.15.0, )"
+            },
+            "Microsoft.AspNetCore": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
+            "Microsoft.SemanticKernel": {
+              "target": "Package",
+              "version": "[1.17.2, )"
+            },
             "OpenAI": {
               "target": "Package",
               "version": "[1.11.0, )"
+            },
+            "bootstrap": {
+              "target": "Package",
+              "version": "[5.3.3, )"
+            },
+            "iTextSharp": {
+              "target": "Package",
+              "version": "[5.5.13.4, )"
             }
           },
           "imports": [

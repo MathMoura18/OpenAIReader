@@ -12,15 +12,52 @@ using LangChain.Providers.OpenAI.Predefined;
 using LangChain.Providers.OpenAI;
 using LangChain.Databases.Sqlite;
 using LangChain.Extensions;
+using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.parser;
+using System;
+using UglyToad.PdfPig.Graphics;
+using static System.Net.Mime.MediaTypeNames;
+using LangChain.Splitters.Text;
 
 namespace AplicativoWebOpenAI.Services
 {
     public class OpenAIService
     {
-        public async static Task<string> GetAISentence(string text, string key)
+        public async static Task<string> GetSentenceFromUserFile(string AIKey, string question, string pdfText, string filePath)
         {
             try
             {
+                var provider = new OpenAiProvider(AIKey);
+
+                var llm = new OpenAiChatModel(provider, "gpt-4");
+                var embeddingModel = new TextEmbeddingV3LargeModel(provider);
+
+                var answer = await llm.GenerateAsync(
+                $"""
+                 Use the following pieces of context to answer the question at the end.
+                 If the answer is not in context then just say that you don't know, don't try to make up an answer.
+
+                 This is a file converted to String: {pdfText}
+
+                 Question: {question}
+                 Helpful Answer: I did not understand your question, please write it again.
+                 """, cancellationToken: CancellationToken.None).ConfigureAwait(false);
+
+                return answer;
+            }
+            catch (Exception ex)
+            {
+                return $"Error in calling AI API: {ex}";
+            }
+        }
+
+        public async static Task<string> GetAISentence(string question, string key, string pdfText)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(pdfText))
+                    return "Olá! Por favor, forneça o documento que você gostaria que eu lesse e sobre o qual você gostaria de fazer perguntas.";
+                
                 var result = new OpenAIViewModel();
 
                 using (var httpClient = new HttpClient())
@@ -31,12 +68,13 @@ namespace AplicativoWebOpenAI.Services
 
                     Message messageSystem = new Message();
                     messageSystem.role = "system";
-                    messageSystem.content = "You are a helpful assistant.";
+                    messageSystem.content = $"You are a PDF Reader and answer questions about documents. This is a documents converted to String: {pdfText}";
                     listMessageModel.Add(messageSystem);
 
                     Message messageUser = new Message();
                     messageUser.role = "user";
-                    messageUser.content = $"{text}";
+                    messageUser.content = question;
+
                     listMessageModel.Add(messageUser);
 
                     var model = new OpenAIInputModel(listMessageModel);
@@ -56,31 +94,6 @@ namespace AplicativoWebOpenAI.Services
             {
                 return $"Error in calling AI API: {ex}";
             }
-        }
-
-        public async static Task<string> GetSentenceFromUserFile(string AIKey, IFormFile userFile, string question)
-        {
-            var provider = new OpenAiProvider(AIKey);
-
-            var llm = new OpenAiChatModel(provider, "gpt-4");
-            var embeddingModel = new TextEmbeddingV3SmallModel(provider);
-
-            using var vectorDatabase = new SqLiteVectorDatabase(dataSource: "vectors.db");
-            var vectorCollection = await vectorDatabase.AddDocumentsFromAsync<PdfPigPdfLoader>(
-                embeddingModel, // Used to convert text to embeddings
-                dimensions: 1536, // Should be 1536 for TextEmbeddingV3SmallModel
-                dataSource: DataSource.FromUrl($"{userFile}"),
-                textSplitter: null); // Default is CharacterTextSplitter(ChunkSize = 4000, ChunkOverlap = 200)
-
-            var answer = await llm.GenerateAsync(
-            $"""
-             Use the following pieces of context to answer the question at the end.
-             If the answer is not in context then just say that you don't know, don't try to make up an answer.
-             Question: {question}
-             Helpful Answer:
-             """, cancellationToken: CancellationToken.None).ConfigureAwait(false);
-
-            return answer;
         }
     }
 }

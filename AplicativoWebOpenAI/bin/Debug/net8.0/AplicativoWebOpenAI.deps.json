@@ -15,7 +15,8 @@
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Microsoft.SemanticKernel": "1.17.2",
           "OpenAI": "1.11.0",
-          "bootstrap": "5.3.3"
+          "bootstrap": "5.3.3",
+          "iTextSharp": "5.5.13.4"
         },
         "runtime": {
           "AplicativoWebOpenAI.dll": {}
@@ -91,6 +92,14 @@
         }
       },
       "bootstrap/5.3.3": {},
+      "BouncyCastle.Cryptography/2.4.0": {
+        "runtime": {
+          "lib/net6.0/BouncyCastle.Cryptography.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.4.0.33771"
+          }
+        }
+      },
       "Google_GenerativeAI/1.0.1": {
         "dependencies": {
           "System.ComponentModel.Annotations": "5.0.0",
@@ -112,6 +121,17 @@
           "lib/net7.0/HuggingFace.dll": {
             "assemblyVersion": "0.2.4.0",
             "fileVersion": "0.2.4.0"
+          }
+        }
+      },
+      "iTextSharp/5.5.13.4": {
+        "dependencies": {
+          "BouncyCastle.Cryptography": "2.4.0"
+        },
+        "runtime": {
+          "lib/net461/itextsharp.dll": {
+            "assemblyVersion": "5.5.13.4",
+            "fileVersion": "5.5.13.4"
           }
         }
       },
@@ -1678,6 +1698,13 @@
       "path": "bootstrap/5.3.3",
       "hashPath": "bootstrap.5.3.3.nupkg.sha512"
     },
+    "BouncyCastle.Cryptography/2.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SwXsAV3sMvAU/Nn31pbjhWurYSjJ+/giI/0n6tCrYoupEK34iIHCuk3STAd9fx8yudM85KkLSVdn951vTng/vQ==",
+      "path": "bouncycastle.cryptography/2.4.0",
+      "hashPath": "bouncycastle.cryptography.2.4.0.nupkg.sha512"
+    },
     "Google_GenerativeAI/1.0.1": {
       "type": "package",
       "serviceable": true,
@@ -1691,6 +1718,13 @@
       "sha512": "sha512-SumlNfvsdVLsjHWwF77hS6oQFHVgkMElblYP0Ug5BEziog93rD6CGvABDbNqkDZp2Ap1DUrhnhx4DprKu/K/Mw==",
       "path": "huggingface/0.2.4",
       "hashPath": "huggingface.0.2.4.nupkg.sha512"
+    },
+    "iTextSharp/5.5.13.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/cvCNv8AJ+XuD99u4NfHSSxkBJKTdvP36wcfQF9V1Cjzi1ycyFSa4vJ64a3DhFVUTKVO60WF8OmAqngQDTHgYA==",
+      "path": "itextsharp/5.5.13.4",
+      "hashPath": "itextsharp.5.5.13.4.nupkg.sha512"
     },
     "LangChain/0.15.0": {
       "type": "package",

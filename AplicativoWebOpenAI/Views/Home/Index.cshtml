@@ -3,7 +3,7 @@
 }
 <div class="section">
     <div class="file-container">
-        <form oninput="SendFileToAI()" method="post" enctype="multipart/form-data">
+        <form asp-action="" method="post" enctype="multipart/form-data" id="form-file">
             <input type="file" name="file" id="input-file"/>
             <label for="input-file"><i class="fa-solid fa-upload"></i>Upload File</label>
         </form>
@@ -11,27 +11,34 @@
 </div>
 <div class="section">
     <div class="chat-box">
-        <div id="chat-conteiner">
-            <div><strong>ChatGPT:</strong> <p id="gpt-text">Hello! How can I assist you today?</p></div>
-            <div id="chat">
-
+        <div id="chat-conteiner" class="chat">
+            <div class="messages-chat">
+                <div class="message">
+                    <div class="response" id="gptResponse">
+                        <strong>ChatGPT:</strong><p class="text" id="gpt-text">Hello! How can I assist you today?</p>
+                    </div>
+                </div>
             </div>
-            <div id="input-button">
-                <input id="input-chat" placeholder="Enter your question..."/>
-                <button id="button-enviar" onclick="EnviarPergunta()"><i class="fa-solid fa-paper-plane"></i></button>
+            <div class="footer-chat" id="input-button" style="gap: 1rem;">
+                <input id="input-chat" type="text" class="write-message" placeholder="Type your message here"></input>
+                <i class="icon send fa-solid fa-paper-plane clickable" aria-hidden="true" onclick="EnviarPergunta()" id="button-enviar"></i>
             </div>
         </div>
     </div>
 </div>
 
 <style>
+    #chat-conteiner {
+        margin-bottom: 0px;
+    }
+
     #input-button {
         display: flex;
         gap: 12px;
+        margin-bottom: 0px;
     }
 
     #input-chat {
-        display: flex;
         width: 100%;
         border: 1px solid #555555;
         border-radius: 20px;
@@ -39,34 +46,19 @@
         color: white;
     }
 
-        #input-chat:focus{
-            background-color: #444444;
-            border: 2px solid white;
-        }
-
     #button-enviar {
-        background-color: #555555;
-        border: none;
-        color: white;
-        padding: 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        border-radius: 50%;
         transition: background-color 0.2s;
     }
 
         #button-enviar:hover{
-            background-color: #222222;
+            background-color: #175CDB;
         }
 
     #gpt-text {
         position: relative;
     }
 
-    #gpt-text::before {
+    #gpt-text:before {
         position:absolute;
         width: 0; 
         overflow:hidden;
@@ -123,45 +115,157 @@
         margin-right: 10px;
     }
 
+    .chat .messages-chat {
+        padding: 25px 35px;
+        padding-left: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+    }
+
+        .chat .messages-chat .message {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .chat .messages-chat .text {
+            display: flex;
+            margin: 0 35px;
+            background-color: #f6f6f6;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+    .response {
+        float: right;
+        margin-right: 0px !important;
+        margin-left: auto; /* flexbox alignment rule */
+    }
+
+        .response .text {
+            background-color: #e3effd !important;
+            display:flex;
+        }
+
+    #gptResponse .text {
+        background-color: white !important;
+        display: flex;
+    }
+
+    .footer-chat {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        bottom: 0;
+        background-color: transparent;
+        border-top: 2px solid #EEE;
+        margin-bottom: 0px;
+    }
+
+    .chat .footer-chat .icon {
+        margin-left: 30px;
+        color: #C0C0C0;
+        font-size: 14pt;
+    }
+
+    .chat .footer-chat .send {
+        color: #fff;
+        background-color: #4f6ebd;
+        right: 50px;
+        padding: 12px 12px 12px 12px;
+        border-radius: 50px;
+        font-size: 14pt;
+    }
+
+    .chat .footer-chat .name {
+        margin: 0 0 0 20px;
+        text-transform: uppercase;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 13pt;
+        color: #515151;
+    }
+
+    .write-message {
+        border: none !important;
+        width: 60%;
+        height: 50px;
+        padding: 10px;
+    }   
+
+    .footer-chat *::-webkit-input-placeholder {
+        color: #C0C0C0;
+        font-size: 13pt;
+    }
+
+    .footer-chat input *:-moz-placeholder {
+        color: #C0C0C0;
+        font-size: 13pt;
+    }
+
+    .footer-chat input *::-moz-placeholder {
+        color: #C0C0C0;
+        font-size: 13pt;
+        margin-left: 5px;
+    }
+
+    .footer-chat input *:-ms-input-placeholder {
+        color: #C0C0C0;
+        font-size: 13pt;
+    }
+
+    .clickable {
+        cursor: pointer;
+    }
+
 </style>
 
 @section Scripts {
     <script>
-        const chatContainer = document.getElementById("chat");
+        const chatContainer = $(".messages-chat");
         const fileContainer = $(".file-container");
-        const inputFile = $("#input-file");
-        const file = document.querySelector('#input-file').files[0];
+        let file = new FormData();
+      
+        $('#form-file').submit(function (e) {
+            e.preventDefault();
+
+            let formData = new FormData(this);
+            file = formData;
+            SendFileToAI(formData);
+        });
+
+        $('#input-file').on("change", function () {
+            $('#form-file').submit();
+        });
 
         function EnviarPergunta() {
             let text = $('#input-chat').val();
             DisableChat();
 
-            if (StrIsNull(text)){
+            if (StrIsNull(text)) {
                 const message = document.createElement('div');
-                message.classList.add("chat")
-                let html = "<div><strong>ChatGPT:</strong> <p>Insert your question</p></div>";
+                message.classList.add("chat");
                 message.innerHTML = html;
                 chatContainer.append(message)
-                
+
                 AbleChat();
             }
             else {
                 $("#input-chat").val("");
                 const message = document.createElement('div');
-                let html = "<div><strong>You:</strong>" + text + "</div>";
-                message.innerHTML = html; 
+                let html = `<div class="message"><div class="response"><strong>You:</strong><p class="text">${text}</p></div></div>`;
+                message.innerHTML = html;
                 chatContainer.append(message)
-                
+
                 $.ajax({
                     type: "GET",
                     dataType: 'json',
-                    url: '@Url.Action("GetAISentence", "OpenAI")',
-                    data: { text: text },
+                    url: '@Url.Action("GetAISentenceByFile", "OpenAI")',
+                    data: { question: text },
                     success: function (result) {
                         if (!StrIsNull(result)) {
                             const message = document.createElement('div');
                             message.classList.add("chat")
-                            let html = '<strong>ChatGPT:</strong> <p id="gpt-text">' + result + '</p>';
+                            let html = `<div class="message"><div class="response"  id="gptResponse"><strong>ChatGPT:</strong><p class="text" id="gpt-text">${result}</p></div></div>`;
                             message.innerHTML = html;
                             chatContainer.append(message)
 
@@ -170,7 +274,7 @@
                         else {
                             const message = document.createElement('div');
                             message.classList.add("chat")
-                            let html = "<strong>Error with OpenAI</strong>";
+                            let html = '<div class="message"><div class="gptResponse"><p class="text"><strong>Error with OpenAI</strong></p></div></div>';
                             message.innerHTML = html;
                             chatContainer.append(message)
 
@@ -182,7 +286,7 @@
                         message.classList.add("chat")
                         let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
                         message.innerHTML = html;
-                        body.append(message)
+                        // body.append(message)
 
                         console.log(`${erro.statusText} ${erro.responseText}`);
                         AbleChat()
@@ -191,35 +295,27 @@
             }
         }
 
-        function SendFileToAI() {
-            let text = $('#input-chat').val();
-            ShowFileinView();
-            console.log(text);
-            DisableChat();
+        function SendFileToAI(formData) {
+            let file = document.querySelector('input[type="file"]').files[0];
+            ShowFileinView(file);
 
             $.ajax({
                 type: "POST",
-                dataType: 'json',
+                // dataType: 'json',
                 url: '@Url.Action("PostUserFile", "OpenAI")',
-                data: { file: file, text: text },
+                data: formData,
+                contentType: false,
+                processData: false,
+                cache: false,
                 success: function (result) {
-                    if (!StrIsNull(result)) {
+                    if (!result) {
                         const message = document.createElement('div');
                         message.classList.add("chat")
-                        let html = '<strong>ChatGPT:</strong> <p id="gpt-text">' + result + '</p>';
+                        let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
                         message.innerHTML = html;
-                        chatContainer.append(message)
+                        // body.append(message)
 
-                        AbleChat()
-                    }
-                    else {
-                        const message = document.createElement('div');
-                        message.classList.add("chat")
-                        let html = "<strong>Error with OpenAI</strong>";
-                        message.innerHTML = html;
-                        chatContainer.append(message)
-
-                        AbleChat()
+                        console.log(`${erro.statusText} ${erro.responseText}`);
                     }
                 },
                 error: function (erro) {
@@ -227,18 +323,82 @@
                     message.classList.add("chat")
                     let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
                     message.innerHTML = html;
-                    body.append(message)
+                    // body.append(message)
 
                     console.log(`${erro.statusText} ${erro.responseText}`);
-                    AbleChat()
                 }
             });
         }
 
-        function ShowFileinView () {
-            const htmlPDF = '<object data="@Url.Action("GetPDF", "Home")" type="application/pdf"></object>';
-            $(".file-container").html(htmlPDF);
+        function ShowFileinView (file) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                let base64 = reader.result;
+                const htmlPDF = `<object data="${base64}" type="application/pdf" style="width: 100%; height: 100%"></object>`;
+                $(".file-container").html(htmlPDF);
+            };
         }
+
+        // function EnviarPergunta() {
+        //     let text = $('#input-chat').val();
+        //     DisableChat();
+
+        //     if (StrIsNull(text)){
+        //         const message = document.createElement('div');
+        //         message.classList.add("chat")
+        //         let html = "<div><strong>ChatGPT:</strong> <p>Insert your question</p></div>";
+        //         message.innerHTML = html;
+        //         chatContainer.append(message)
+
+        //         AbleChat();
+        //     }
+        //     else {
+        //         $("#input-chat").val("");
+        //         const message = document.createElement('div');
+        //         let html = "<div><strong>You:</strong>" + text + "</div>";
+        //         message.innerHTML = html;
+        //         chatContainer.append(message)
+
+        //         $.ajax({
+        //             type: "GET",
+        //             dataType: 'json',
+        //             url: '@Url.Action("GetAISentence", "OpenAI")',
+        //             data: { text: text },
+        //             success: function (result) {
+        //                 if (!StrIsNull(result)) {
+        //                     const message = document.createElement('div');
+        //                     message.classList.add("chat")
+        //                     let html = '<strong>ChatGPT:</strong> <p id="gpt-text">' + result + '</p>';
+        //                     message.innerHTML = html;
+        //                     chatContainer.append(message)
+
+        //                     AbleChat()
+        //                 }
+        //                 else {
+        //                     const message = document.createElement('div');
+        //                     message.classList.add("chat")
+        //                     let html = "<strong>Error with OpenAI</strong>";
+        //                     message.innerHTML = html;
+        //                     chatContainer.append(message)
+
+        //                     AbleChat()
+        //                 }
+        //             },
+        //             error: function (erro) {
+        //                 const message = document.createElement('div');
+        //                 message.classList.add("chat")
+        //                 let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
+        //                 message.innerHTML = html;
+        //                 body.append(message)
+
+        //                 console.log(`${erro.statusText} ${erro.responseText}`);
+        //                 AbleChat()
+        //             }
+        //         });
+        //     }
+        // }
+
 
         $("#input-chat").on('keyup', function (e) {
             if (e.key === 'Enter' || e.keyCode === 13) {

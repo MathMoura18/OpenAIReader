@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="bootstrap" Version="5.3.3" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.4" />
     <PackageReference Include="LangChain" Version="0.15.0" />
     <PackageReference Include="LangChain.Databases.Sqlite" Version="0.15.2" />
     <PackageReference Include="LangChain.DocumentLoaders.Pdf" Version="0.15.0" />
