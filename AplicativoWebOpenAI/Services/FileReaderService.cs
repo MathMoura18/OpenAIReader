@@ -4,37 +4,38 @@ using System.Text;
 using Path = System.IO.Path;
 using Aspose.Pdf.Operators;
 using OpenAI.Threads;
+using AplicativoWebOpenAI.Models;
 
 namespace AplicativoWebOpenAI.Services
 {
     public class FileReaderService
     {
-        private static string fullFilePath;
-
-        public static string GetFullFilePath()
-        {
-            return fullFilePath; 
-        }
-        
-        public static string ReadFile()
+        public async static Task<string> ReadFile(IFormFile file)
         {
             try
             {
+                if (file == null)
+                    return "Error in reading the file: File is null";
+                
+                FileModel model =  await UploadFile(file);
                 string pdfText = "";
 
-                string path = GetFullFilePath();
-
-                using (PdfReader reader = new PdfReader(path))
+                using (PdfReader reader = new PdfReader(model.filePath))
                 {
+                    pdfText += "Page 1: \n";
                     for (int pagenumber = 1; pagenumber <= reader.NumberOfPages; pagenumber++)
                     {
                         ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
-                        pdfText += $"Page {pagenumber}: ";
+                        if(pagenumber > 1)
+                            pdfText += $".\n Page {pagenumber}: \n";
+                        
                         pdfText += PdfTextExtractor.GetTextFromPage(reader, pagenumber, strategy);
                         pdfText += Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(pdfText)));
                     }
                 }
-                return pdfText;
+                model.fileText = pdfText;
+
+                return model.fileText;
             }
             catch (Exception ex)
             {
@@ -42,29 +43,30 @@ namespace AplicativoWebOpenAI.Services
             }
         }
 
-        public async static void UploadFile(IFormFile postedFile)
+        public async static Task<FileModel> UploadFile(IFormFile postedFile)
         {
             try
             {
-                string filePath = "";
-                filePath = Path.Combine("Files/");
-                string fullPath = Path.GetFullPath(filePath);
+                FileModel model = new FileModel();
 
-                if (postedFile == null)
-                {
-                    throw new Exception("Error trying to upload the file: File is null");
-                }
+                model.filePath = Path.Combine("Files/");
+                string fullPath = Path.GetFullPath(model.filePath);
 
                 if (!Directory.Exists(fullPath))
-                    Directory.CreateDirectory(filePath);
+                    Directory.CreateDirectory(model.filePath);
 
-                filePath += Path.GetFileName(postedFile.FileName);
-                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                model.fileName = postedFile.FileName;
+                model.filePath += Path.GetFileName(postedFile.FileName);
+
+                using (Stream fileStream = new FileStream(model.filePath, FileMode.Create))
                 {
                     await postedFile.CopyToAsync(fileStream);
                 }
+
                 fullPath += Path.GetFileName(postedFile.FileName);
-                fullFilePath = fullPath;
+                model.filePath = fullPath;
+
+                return model;
             }
             catch (Exception ex) 
             {

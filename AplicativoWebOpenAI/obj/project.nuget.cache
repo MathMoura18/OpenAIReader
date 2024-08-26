@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "E5HCb9AcaGs=",
+  "dgSpecHash": "4/oW1r0S/CE=",
   "success": true,
-  "projectFilePath": "C:\\dev\\ws\\PDFReaderOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
+  "projectFilePath": "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Matheus\\.nuget\\packages\\anthropic.sdk\\3.2.3\\anthropic.sdk.3.2.3.nupkg.sha512",
     "C:\\Users\\Matheus\\.nuget\\packages\\anyscale\\1.0.2\\anyscale.1.0.2.nupkg.sha512",

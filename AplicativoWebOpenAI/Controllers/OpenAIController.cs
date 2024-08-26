@@ -11,8 +11,6 @@ namespace AplicativoWebOpenAI.Controllers
 {
     public class OpenAIController : Controller
     {
-        private static string pdfText;
-
         public OpenAIController(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -20,22 +18,26 @@ namespace AplicativoWebOpenAI.Controllers
 
         public IConfiguration Configuration { get; }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Contact AI with a question
         /// </summary>
-        /// <param name="text">Your question to AI</param>
+        /// <param name="question">Your question to AI</param>
+        /// <param name="pdfText">File Text</param>
         /// <returns>
         /// </returns>
         /// <response code="200">Sucess</response>
         [HttpGet]
-        [Route("GetAISentenceByFile")]
-        public async Task<JsonResult> GetAISentenceByFile(string question)
+        [Route("GetAISentence")]
+        public async Task<JsonResult> GetAISentence(string question, string pdfText)
         {
             try
             {
                 string key = Configuration.GetValue<string>("OpenAI:Key");
-
-                string filePath = FileReaderService.GetFullFilePath();
 
                 var result = await OpenAIService.GetAISentence(question, key, pdfText);
 
@@ -56,15 +58,19 @@ namespace AplicativoWebOpenAI.Controllers
         /// <response code="200">Sucess</response>
         [HttpPost]
         [Route("PostUserFile")]
-        public async Task<IActionResult> PostUserFile(List<IFormFile> file)
+        public async Task<string> PostUserFile(List<IFormFile> file)
         {
             try
             {
-                FileReaderService.UploadFile(file[0]);
+                if (file == null)
+                    return "Please select a valid file";
 
-                pdfText = FileReaderService.ReadFile();
+                string pdfText = await FileReaderService.ReadFile(file[0]);
 
-                return Ok();
+                if(String.IsNullOrEmpty(pdfText))
+                    return null;
+
+                return pdfText;
             }
             catch (Exception ex)
             {

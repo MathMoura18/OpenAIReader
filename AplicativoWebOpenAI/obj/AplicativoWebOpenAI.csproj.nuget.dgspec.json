@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\dev\\ws\\PDFReaderOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj": {}
+    "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj": {}
   },
   "projects": {
-    "C:\\dev\\ws\\PDFReaderOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj": {
+    "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\dev\\ws\\PDFReaderOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
+        "projectUniqueName": "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
         "projectName": "AplicativoWebOpenAI",
-        "projectPath": "C:\\dev\\ws\\PDFReaderOpenAI\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
+        "projectPath": "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj",
         "packagesPath": "C:\\Users\\Matheus\\.nuget\\packages\\",
-        "outputPath": "C:\\dev\\ws\\PDFReaderOpenAI\\AplicativoWebOpenAI\\obj\\",
+        "outputPath": "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Users\\Matheus\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder",

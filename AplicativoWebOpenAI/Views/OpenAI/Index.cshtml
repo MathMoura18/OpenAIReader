@@ -1,0 +1,443 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+<div class="section">
+    <div class="file-container">
+        <form asp-action="" method="post" enctype="multipart/form-data" id="form-file">
+            <input type="file" name="file" id="input-file"/>
+            <label for="input-file"><i class="fa-solid fa-upload"></i>Upload File</label>
+        </form>
+    </div>
+</div>
+<div class="section">
+    <div class="chat-box">
+        <div id="chat-conteiner" class="chat">
+            <div class="messages-chat">
+                <div class="message">
+                    <div class="response" id="gptResponse">
+                        <strong>ChatGPT:</strong><p class="text" id="gpt-text">Hello! How can I assist you today?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-chat" id="input-button" style="gap: 1rem;">
+                <input id="input-chat" type="text" class="write-message" placeholder="Type your message here"></input>
+                <i class="icon send fa-solid fa-paper-plane clickable" aria-hidden="true" onclick="EnviarPergunta()" id="button-enviar"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #chat-conteiner {
+        margin-bottom: 0px;
+    }
+
+    #input-button {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 0px;
+    }
+
+    #input-chat {
+        width: 100%;
+        border: 1px solid #555555;
+        border-radius: 20px;
+        background-color: gray;
+        color: white;
+    }
+
+    #button-enviar {
+        transition: background-color 0.2s;
+    }
+
+        #button-enviar:hover{
+            background-color: #175CDB;
+        }
+
+    #gpt-text {
+        position: relative;
+    }
+
+    #gpt-text:before {
+        position:absolute;
+        width: 0; 
+        overflow:hidden;
+        animation: animate 10s linear;
+        border-right: 2px solid gray;
+    }
+    
+    @@keyframes animate {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: 100%;
+        }
+    }
+
+    input[type="file"]{
+        display: none;
+    }
+
+    label {
+        display: inline-block;
+        text-transform: uppercase;
+        color: white;
+        background: #0069D9;
+        text-align: center;
+        padding: 15px 40px;
+        font-size: 18px;
+        letter-spacing: 1.5px;
+        user-select: none;
+        cursor: pointer;
+        box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
+        border-radius: 3px;
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+        -webkit-transition-property: box-shadow, transform;
+        transition-property: box-shadow, transform;
+    }
+
+        label:active {
+            -webkit-transform: scale(0.9);
+            transform: scale(0.9);
+        }
+
+        label:hover, label:focus {
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+
+    label i {
+        font-size: 20px;
+        margin-right: 10px;
+    }
+
+    .chat .messages-chat {
+        padding: 25px 35px;
+        padding-left: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+    }
+
+        .chat .messages-chat .message {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .chat .messages-chat .text {
+            display: flex;
+            margin: 0 35px;
+            background-color: #f6f6f6;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+    .response {
+        float: right;
+        margin-right: 0px !important;
+        margin-left: auto; /* flexbox alignment rule */
+    }
+
+        .response .text {
+            background-color: #e3effd !important;
+            display:flex;
+        }
+
+    #gptResponse .text {
+        background-color: white !important;
+        display: flex;
+    }
+
+    .footer-chat {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        bottom: 0;
+        background-color: transparent;
+        border-top: 2px solid #EEE;
+        margin-bottom: 0px;
+    }
+
+    .chat .footer-chat .icon {
+        margin-left: 30px;
+        color: #C0C0C0;
+        font-size: 14pt;
+    }
+
+    .chat .footer-chat .send {
+        color: #fff;
+        background-color: #4f6ebd;
+        right: 50px;
+        padding: 12px 12px 12px 12px;
+        border-radius: 50px;
+        font-size: 14pt;
+    }
+
+    .chat .footer-chat .name {
+        margin: 0 0 0 20px;
+        text-transform: uppercase;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 13pt;
+        color: #515151;
+    }
+
+    .write-message {
+        border: none !important;
+        width: 60%;
+        height: 50px;
+        padding: 10px;
+    }   
+
+    .footer-chat *::-webkit-input-placeholder {
+        color: #C0C0C0;
+        font-size: 13pt;
+    }
+
+    .footer-chat input *:-moz-placeholder {
+        color: #C0C0C0;
+        font-size: 13pt;
+    }
+
+    .footer-chat input *::-moz-placeholder {
+        color: #C0C0C0;
+        font-size: 13pt;
+        margin-left: 5px;
+    }
+
+    .footer-chat input *:-ms-input-placeholder {
+        color: #C0C0C0;
+        font-size: 13pt;
+    }
+
+    .clickable {
+        cursor: pointer;
+    }
+
+</style>
+
+@section Scripts {
+    <script>
+        const chatContainer = $(".messages-chat");
+        const fileContainer = $(".file-container");
+        let file = new FormData();
+        let pdfText = "";
+      
+        $('#form-file').submit(function (e) {
+            e.preventDefault();
+
+            let formData = new FormData(this);
+            file = formData;
+            SendFileToAI(formData);
+        });
+
+        $('#input-file').on("change", function () {
+            $('#form-file').submit();
+        });
+
+        function EnviarPergunta() {
+            let text = $('#input-chat').val();
+
+            if (StrIsNull(text)) {
+                return
+            }
+            else {
+                DisableChat();
+                $("#input-chat").val("");
+                const message = document.createElement('div');
+                let html = `<div class="message"><div class="response"><strong>You:</strong><p class="text">${text}</p></div></div>`;
+                message.innerHTML = html;
+                chatContainer.append(message)
+
+                $.ajax({
+                    type: "GET",
+                    //dataType: 'json',
+                    url: '@Url.Action("GetAISentence", "OpenAI")',
+                    data: { question: text, pdfText: pdfText },
+                    contentType: false,
+                    cache: false,
+                    success: function (result) {
+                        if (!StrIsNull(result)) {
+                            const message = document.createElement('div');
+                            message.classList.add("chat")
+                            let html = `<div class="message"><div class="response"  id="gptResponse"><strong>ChatGPT:</strong><p class="text" id="gpt-text">${result}</p></div></div>`;
+                            message.innerHTML = html;
+                            chatContainer.append(message)
+                        }
+                        else {
+                            const message = document.createElement('div');
+                            message.classList.add("chat")
+                            let html = '<div class="message"><div class="gptResponse"><p class="text"><strong>Error with OpenAI</strong></p></div></div>';
+                            message.innerHTML = html;
+                            chatContainer.append(message)
+                        }
+
+                        AbleChat()
+                    },
+                    error: function (erro) {
+                        const message = document.createElement('div');
+                        message.classList.add("chat")
+                        let html = `<div class="message"><div class="gptResponse"><p class="text"><strong>Error with OpenAI: ${erro.statusText}</strong></p></div></div>`;
+                        message.innerHTML = html;
+                        chatContainer.append(message)
+
+                        console.log(`${erro.statusText} ${erro.responseText}`);
+                        AbleChat()
+                    }
+                });
+            }
+        }
+
+        function SendFileToAI(formData) {
+            DisableChat();
+            let file = document.querySelector('input[type="file"]').files[0];
+            ShowFileinView(file);
+
+            $.ajax({
+                type: "POST",
+                // dataType: 'json',
+                url: '@Url.Action("PostUserFile", "OpenAI")',
+                data: formData,
+                contentType: false,
+                processData: false,
+                cache: false,
+                success: function (result) {
+                    if (StrIsNull(result)) {
+                        const message = document.createElement('div');
+                        message.classList.add("chat")
+                        let html = '<div class="message"><div class="gptResponse"><p class="text"><strong>No response from OpenAI</strong></p></div></div>';
+                        message.innerHTML = html;
+                        chatContainer.append(message)
+                    }
+                    else {
+                        if (result == "Please select a valid file") {
+                            const message = document.createElement('div');
+                            message.classList.add("chat")
+                            let html = `<div class="message"><div class="gptResponse"><p class="text"><strong>${result}</strong></p></div></div>`;
+                            message.innerHTML = html;
+                            chatContainer.append(message)
+                        }
+                        else {
+                            pdfText = result;
+
+                            const message = document.createElement('div');
+                            message.classList.add("chat")
+                            let html = '<div class="message"><div class="gptResponse"><p class="text"><strong>File read!</strong></p></div></div>';
+                            message.innerHTML = html;
+                            chatContainer.append(message)
+                        }
+                    }
+                    
+                    AbleChat()
+                },
+                error: function (erro) {
+                    const message = document.createElement('div');
+                    message.classList.add("chat")
+                    let html = `<div class="message"><div class="gptResponse"><p class="text"><strong>Error trying to reading the file: ${erro.statusText}</strong></p></div></div>`;
+                    message.innerHTML = html;
+                    chatContainer.append(message)
+
+                    AbleChat()
+
+                    console.log(`${erro.statusText} ${erro.responseText}`);
+                }
+            });
+        }
+
+        function ShowFileinView (file) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                let base64 = reader.result;
+                const htmlPDF = `<object data="${base64}" type="application/pdf" style="width: 100%; height: 100%"></object>`;
+                $(".file-container").html(htmlPDF);
+            };
+        }
+
+        // function EnviarPergunta() {
+        //     let text = $('#input-chat').val();
+        //     DisableChat();
+
+        //     if (StrIsNull(text)){
+        //         const message = document.createElement('div');
+        //         message.classList.add("chat")
+        //         let html = "<div><strong>ChatGPT:</strong> <p>Insert your question</p></div>";
+        //         message.innerHTML = html;
+        //         chatContainer.append(message)
+
+        //         AbleChat();
+        //     }
+        //     else {
+        //         $("#input-chat").val("");
+        //         const message = document.createElement('div');
+        //         let html = "<div><strong>You:</strong>" + text + "</div>";
+        //         message.innerHTML = html;
+        //         chatContainer.append(message)
+
+        //         $.ajax({
+        //             type: "GET",
+        //             dataType: 'json',
+        //             url: '@Url.Action("GetAISentence", "OpenAI")',
+        //             data: { text: text },
+        //             success: function (result) {
+        //                 if (!StrIsNull(result)) {
+        //                     const message = document.createElement('div');
+        //                     message.classList.add("chat")
+        //                     let html = '<strong>ChatGPT:</strong> <p id="gpt-text">' + result + '</p>';
+        //                     message.innerHTML = html;
+        //                     chatContainer.append(message)
+
+        //                     AbleChat()
+        //                 }
+        //                 else {
+        //                     const message = document.createElement('div');
+        //                     message.classList.add("chat")
+        //                     let html = "<strong>Error with OpenAI</strong>";
+        //                     message.innerHTML = html;
+        //                     chatContainer.append(message)
+
+        //                     AbleChat()
+        //                 }
+        //             },
+        //             error: function (erro) {
+        //                 const message = document.createElement('div');
+        //                 message.classList.add("chat")
+        //                 let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
+        //                 message.innerHTML = html;
+        //                 body.append(message)
+
+        //                 console.log(`${erro.statusText} ${erro.responseText}`);
+        //                 AbleChat()
+        //             }
+        //         });
+        //     }
+        // }
+
+
+        $("#input-chat").on('keyup', function (e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                EnviarPergunta();
+            }
+        });
+
+        function StrIsNull(String) {
+            if (String == null || String == "" || String == undefined || String == "undefined")
+                return true;
+            else
+                return false;
+        }
+
+        function AbleChat (){
+            $('#input-chat').prop("disabled", false);
+            $('#button-enviar').prop("disabled", false);
+        }
+
+        function DisableChat() {
+            $('#input-chat').prop("disabled", true);
+            $('#button-enviar').prop("disabled", true);
+        }
+    </script>
+}
