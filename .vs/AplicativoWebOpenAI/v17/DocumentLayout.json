@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\dev\\ws\\OpenAIReader\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\openaireader\\aplicativowebopenai\\services\\filereaderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\services\\filereaderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\openaireader\\aplicativowebopenai\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\openaireader\\aplicativowebopenai\\views\\openai\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\views\\openai\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\openaireader\\aplicativowebopenai\\services\\filereaderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\services\\filereaderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\openaireader\\aplicativowebopenai\\models\\openaiinputmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|solutionrelative:aplicativowebopenai\\models\\openaiinputmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F5E7D84A-0286-46C5-A8B9-B36639330B2B}|AplicativoWebOpenAI\\AplicativoWebOpenAI.csproj|c:\\dev\\ws\\openaireader\\aplicativowebopenai\\controllers\\openaicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,6 +35,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "AplicativoWebOpenAI\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "AplicativoWebOpenAI\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-26T03:18:08.259Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "OpenAIInputModel.cs",
+              "DocumentMoniker": "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\Models\\OpenAIInputModel.cs",
+              "RelativeDocumentMoniker": "AplicativoWebOpenAI\\Models\\OpenAIInputModel.cs",
+              "ToolTip": "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\Models\\OpenAIInputModel.cs",
+              "RelativeToolTip": "AplicativoWebOpenAI\\Models\\OpenAIInputModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-26T03:15:22.707Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "FileReaderService.cs",
               "DocumentMoniker": "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\Services\\FileReaderService.cs",
               "RelativeDocumentMoniker": "AplicativoWebOpenAI\\Services\\FileReaderService.cs",
@@ -52,13 +86,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "OpenAIController.cs",
               "DocumentMoniker": "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\Controllers\\OpenAIController.cs",
               "RelativeDocumentMoniker": "AplicativoWebOpenAI\\Controllers\\OpenAIController.cs",
               "ToolTip": "C:\\dev\\ws\\OpenAIReader\\AplicativoWebOpenAI\\Controllers\\OpenAIController.cs",
               "RelativeToolTip": "AplicativoWebOpenAI\\Controllers\\OpenAIController.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAAiwDAAAAANAAAA",
+              "ViewState": "AQIAABQAAAAAAAAAAAAqwCkAAAA2AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-22T18:32:01.591Z",
               "EditorCaption": ""

@@ -7,7 +7,7 @@
             model = "gpt-4o";
             this.messages = messages;
             temperature = 0.2m;
-            max_tokens = 100;
+            max_tokens = 500;
         }
 
         public string model { get; set; }
