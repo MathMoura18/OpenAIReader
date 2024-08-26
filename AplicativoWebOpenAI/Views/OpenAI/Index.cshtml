@@ -224,8 +224,7 @@
         const chatContainer = $(".messages-chat");
         const fileContainer = $(".file-container");
         let file = new FormData();
-        let pdfText = "";
-      
+
         $('#form-file').submit(function (e) {
             e.preventDefault();
 
@@ -240,12 +239,17 @@
 
         function EnviarPergunta() {
             let text = $('#input-chat').val();
+            DisableChat();
 
             if (StrIsNull(text)) {
-                return
+                const message = document.createElement('div');
+                message.classList.add("chat");
+                message.innerHTML = html;
+                chatContainer.append(message)
+
+                AbleChat();
             }
             else {
-                DisableChat();
                 $("#input-chat").val("");
                 const message = document.createElement('div');
                 let html = `<div class="message"><div class="response"><strong>You:</strong><p class="text">${text}</p></div></div>`;
@@ -254,11 +258,9 @@
 
                 $.ajax({
                     type: "GET",
-                    //dataType: 'json',
+                    dataType: 'json',
                     url: '@Url.Action("GetAISentence", "OpenAI")',
-                    data: { question: text, pdfText: pdfText },
-                    contentType: false,
-                    cache: false,
+                    data: { question: text },
                     success: function (result) {
                         if (!StrIsNull(result)) {
                             const message = document.createElement('div');
@@ -266,6 +268,8 @@
                             let html = `<div class="message"><div class="response"  id="gptResponse"><strong>ChatGPT:</strong><p class="text" id="gpt-text">${result}</p></div></div>`;
                             message.innerHTML = html;
                             chatContainer.append(message)
+
+                            AbleChat()
                         }
                         else {
                             const message = document.createElement('div');
@@ -273,16 +277,16 @@
                             let html = '<div class="message"><div class="gptResponse"><p class="text"><strong>Error with OpenAI</strong></p></div></div>';
                             message.innerHTML = html;
                             chatContainer.append(message)
-                        }
 
-                        AbleChat()
+                            AbleChat()
+                        }
                     },
                     error: function (erro) {
                         const message = document.createElement('div');
                         message.classList.add("chat")
-                        let html = `<div class="message"><div class="gptResponse"><p class="text"><strong>Error with OpenAI: ${erro.statusText}</strong></p></div></div>`;
+                        let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
                         message.innerHTML = html;
-                        chatContainer.append(message)
+                        // body.append(message)
 
                         console.log(`${erro.statusText} ${erro.responseText}`);
                         AbleChat()
@@ -292,7 +296,6 @@
         }
 
         function SendFileToAI(formData) {
-            DisableChat();
             let file = document.querySelector('input[type="file"]').files[0];
             ShowFileinView(file);
 
@@ -305,49 +308,29 @@
                 processData: false,
                 cache: false,
                 success: function (result) {
-                    if (StrIsNull(result)) {
+                    if (!result) {
                         const message = document.createElement('div');
                         message.classList.add("chat")
-                        let html = '<div class="message"><div class="gptResponse"><p class="text"><strong>No response from OpenAI</strong></p></div></div>';
+                        let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
                         message.innerHTML = html;
-                        chatContainer.append(message)
-                    }
-                    else {
-                        if (result == "Please select a valid file") {
-                            const message = document.createElement('div');
-                            message.classList.add("chat")
-                            let html = `<div class="message"><div class="gptResponse"><p class="text"><strong>${result}</strong></p></div></div>`;
-                            message.innerHTML = html;
-                            chatContainer.append(message)
-                        }
-                        else {
-                            pdfText = result;
+                        // body.append(message)
 
-                            const message = document.createElement('div');
-                            message.classList.add("chat")
-                            let html = '<div class="message"><div class="gptResponse"><p class="text"><strong>File read!</strong></p></div></div>';
-                            message.innerHTML = html;
-                            chatContainer.append(message)
-                        }
+                        console.log(`${erro.statusText} ${erro.responseText}`);
                     }
-                    
-                    AbleChat()
                 },
                 error: function (erro) {
                     const message = document.createElement('div');
                     message.classList.add("chat")
-                    let html = `<div class="message"><div class="gptResponse"><p class="text"><strong>Error trying to reading the file: ${erro.statusText}</strong></p></div></div>`;
+                    let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
                     message.innerHTML = html;
-                    chatContainer.append(message)
-
-                    AbleChat()
+                    // body.append(message)
 
                     console.log(`${erro.statusText} ${erro.responseText}`);
                 }
             });
         }
 
-        function ShowFileinView (file) {
+        function ShowFileinView(file) {
             var reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function () {
@@ -430,7 +413,7 @@
                 return false;
         }
 
-        function AbleChat (){
+        function AbleChat() {
             $('#input-chat').prop("disabled", false);
             $('#button-enviar').prop("disabled", false);
         }

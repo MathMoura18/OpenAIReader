@@ -10,14 +10,13 @@ namespace AplicativoWebOpenAI.Services
 {
     public class FileReaderService
     {
-        public async static Task<string> ReadFile(IFormFile file)
+        public static string ReadFile(FileModel model)
         {
             try
             {
-                if (file == null)
+                if (model == null)
                     return "Error in reading the file: File is null";
                 
-                FileModel model =  await UploadFile(file);
                 string pdfText = "";
 
                 using (PdfReader reader = new PdfReader(model.filePath))

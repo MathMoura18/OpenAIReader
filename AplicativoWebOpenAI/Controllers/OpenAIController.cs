@@ -6,6 +6,7 @@ using OpenAI_API.Moderation;
 using System.Text;
 using System.Configuration;
 using OpenAI.Threads;
+using AplicativoWebOpenAI.Models;
 
 namespace AplicativoWebOpenAI.Controllers
 {
@@ -33,13 +34,13 @@ namespace AplicativoWebOpenAI.Controllers
         /// <response code="200">Sucess</response>
         [HttpGet]
         [Route("GetAISentence")]
-        public async Task<JsonResult> GetAISentence(string question, string pdfText)
+        public async Task<JsonResult> GetAISentence(string question, FileModel file)
         {
             try
             {
                 string key = Configuration.GetValue<string>("OpenAI:Key");
 
-                var result = await OpenAIService.GetAISentence(question, key, pdfText);
+                var result = await OpenAIService.GetAISentence(question, key, file);
 
                 return Json(result);
             }
@@ -58,19 +59,13 @@ namespace AplicativoWebOpenAI.Controllers
         /// <response code="200">Sucess</response>
         [HttpPost]
         [Route("PostUserFile")]
-        public async Task<string> PostUserFile(List<IFormFile> file)
+        public async Task<FileModel> PostUserFile(List<IFormFile> file)
         {
             try
             {
-                if (file == null)
-                    return "Please select a valid file";
+                var result = await FileReaderService.UploadFile(file[0]);
 
-                string pdfText = await FileReaderService.ReadFile(file[0]);
-
-                if(String.IsNullOrEmpty(pdfText))
-                    return null;
-
-                return pdfText;
+                return result;
             }
             catch (Exception ex)
             {

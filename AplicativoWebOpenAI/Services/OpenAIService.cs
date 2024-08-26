@@ -51,11 +51,13 @@ namespace AplicativoWebOpenAI.Services
             }
         }
 
-        public async static Task<string> GetAISentence(string question, string key, string pdfText)
+        public async static Task<string> GetAISentence(string question, string key, FileModel file)
         {
             try
             {
-                if (String.IsNullOrEmpty(pdfText))
+                FileReaderService.ReadFile(file);
+
+                if (String.IsNullOrEmpty(file.fileText))
                     return "Olá! Por favor, forneça o documento que você gostaria que eu lesse e sobre o qual você gostaria de fazer perguntas.";
                 
                 var result = new OpenAIViewModel();
@@ -68,7 +70,7 @@ namespace AplicativoWebOpenAI.Services
 
                     Message messageSystem = new Message();
                     messageSystem.role = "system";
-                    messageSystem.content = $"You are a PDF Reader and answer questions about documents. This is a documents converted to String: {pdfText}";
+                    messageSystem.content = $"You are a PDF Reader and answer questions about documents. This is a documents converted to String: {file.fileText}";
                     listMessageModel.Add(messageSystem);
 
                     Message messageUser = new Message();
