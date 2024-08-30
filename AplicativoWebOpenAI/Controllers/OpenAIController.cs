@@ -44,6 +44,9 @@ namespace AplicativoWebOpenAI.Controllers
 
                 FileModel file = JsonSerializer.Deserialize<FileModel>(dados);
 
+                if(String.IsNullOrEmpty(file.fileText)) 
+                    file.fileText = FileReaderService.ReadFile(file);
+
                 var result = await OpenAIService.GetAISentence(file.question, key, file);
 
                 return Json(result);

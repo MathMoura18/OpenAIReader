@@ -53,7 +53,7 @@ namespace AplicativoWebOpenAI.Services
 
         public async static Task<string> GetAISentence(string question, string key, FileModel file)
         {            
-            if (file != null || String.IsNullOrEmpty(file.fileText))
+            if (file == null || String.IsNullOrEmpty(file.fileText))
                 return "Olá! Por favor, forneça o documento que você gostaria que eu lesse e sobre o qual você gostaria de fazer perguntas.";
             
             try
@@ -68,7 +68,7 @@ namespace AplicativoWebOpenAI.Services
 
                     Message messageSystem = new Message();
                     messageSystem.role = "system";
-                    messageSystem.content = $"You are a PDF Reader and answer questions about documents. This is a documents converted to String: {file.fileText}";
+                    messageSystem.content = $"You are a PDF Reader and answer questions about documents. After give your final answer, also write from which part you took it to answer the question. This is a document converted to String: {file.fileText}";
                     listMessageModel.Add(messageSystem);
 
                     Message messageUser = new Message();

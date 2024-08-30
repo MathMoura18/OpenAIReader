@@ -65,8 +65,6 @@ namespace AplicativoWebOpenAI.Services
                 fullPath += Path.GetFileName(postedFile.FileName);
                 model.filePath = fullPath;
 
-                model.fileText = ReadFile(model);
-
                 return model;
             }
             catch (Exception ex) 
