@@ -68,7 +68,7 @@ namespace AplicativoWebOpenAI.Services
 
                     Message messageSystem = new Message();
                     messageSystem.role = "system";
-                    messageSystem.content = $"You are a PDF Reader and answer questions about documents. After give your final answer, also write from which part you took it to answer the question. This is a document converted to String: {file.fileText}";
+                    messageSystem.content = $"You are a PDF Reader and answer questions about documents. After give your final answer, also write exactly from which part you took it to answer the question, write like this 'Source: (part from document)'. This is a document converted to String: {file.fileText}";
                     listMessageModel.Add(messageSystem);
 
                     Message messageUser = new Message();
