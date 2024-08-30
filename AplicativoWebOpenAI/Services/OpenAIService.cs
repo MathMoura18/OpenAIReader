@@ -52,14 +52,12 @@ namespace AplicativoWebOpenAI.Services
         }
 
         public async static Task<string> GetAISentence(string question, string key, FileModel file)
-        {
+        {            
+            if (file != null || String.IsNullOrEmpty(file.fileText))
+                return "Olá! Por favor, forneça o documento que você gostaria que eu lesse e sobre o qual você gostaria de fazer perguntas.";
+            
             try
-            {
-                FileReaderService.ReadFile(file);
-
-                if (String.IsNullOrEmpty(file.fileText))
-                    return "Olá! Por favor, forneça o documento que você gostaria que eu lesse e sobre o qual você gostaria de fazer perguntas.";
-                
+            {                
                 var result = new OpenAIViewModel();
 
                 using (var httpClient = new HttpClient())

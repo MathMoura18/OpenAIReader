@@ -223,13 +223,12 @@
     <script>
         const chatContainer = $(".messages-chat");
         const fileContainer = $(".file-container");
-        let file = new FormData();
+        const fileModel = {};
 
         $('#form-file').submit(function (e) {
             e.preventDefault();
 
             let formData = new FormData(this);
-            file = formData;
             SendFileToAI(formData);
         });
 
@@ -244,6 +243,7 @@
             if (StrIsNull(text)) {
                 const message = document.createElement('div');
                 message.classList.add("chat");
+                let html = `<div class="message"><div class="response"><strong>You:</strong><p class="text">Please write your question</p></div></div>`;
                 message.innerHTML = html;
                 chatContainer.append(message)
 
@@ -254,32 +254,28 @@
                 const message = document.createElement('div');
                 let html = `<div class="message"><div class="response"><strong>You:</strong><p class="text">${text}</p></div></div>`;
                 message.innerHTML = html;
-                chatContainer.append(message)
+                chatContainer.append(message);
+                
+                fileModel.question = text;
+                
+                const dados = { fileModel };
 
                 $.ajax({
                     type: "GET",
-                    dataType: 'json',
+                    // dataType: 'json',
                     url: '@Url.Action("GetAISentence", "OpenAI")',
-                    data: { question: text },
+                    data: dados,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
                     success: function (result) {
-                        if (!StrIsNull(result)) {
-                            const message = document.createElement('div');
-                            message.classList.add("chat")
-                            let html = `<div class="message"><div class="response"  id="gptResponse"><strong>ChatGPT:</strong><p class="text" id="gpt-text">${result}</p></div></div>`;
-                            message.innerHTML = html;
-                            chatContainer.append(message)
+                        const message = document.createElement('div');
+                        message.classList.add("chat")
+                        let html = `<div class="message"><div class="response"  id="gptResponse"><strong>ChatGPT:</strong><p class="text" id="gpt-text">${result}</p></div></div>`;
+                        message.innerHTML = html;
+                        chatContainer.append(message)
 
-                            AbleChat()
-                        }
-                        else {
-                            const message = document.createElement('div');
-                            message.classList.add("chat")
-                            let html = '<div class="message"><div class="gptResponse"><p class="text"><strong>Error with OpenAI</strong></p></div></div>';
-                            message.innerHTML = html;
-                            chatContainer.append(message)
-
-                            AbleChat()
-                        }
+                        AbleChat()
                     },
                     error: function (erro) {
                         const message = document.createElement('div');
@@ -289,7 +285,6 @@
                         // body.append(message)
 
                         console.log(`${erro.statusText} ${erro.responseText}`);
-                        AbleChat()
                     }
                 });
             }
@@ -308,7 +303,7 @@
                 processData: false,
                 cache: false,
                 success: function (result) {
-                    if (!result) {
+                    if (result == null) {
                         const message = document.createElement('div');
                         message.classList.add("chat")
                         let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
@@ -316,6 +311,11 @@
                         // body.append(message)
 
                         console.log(`${erro.statusText} ${erro.responseText}`);
+                    }
+                    else{
+                        fileModel.fileName = result.fileName;
+                        fileModel.filePath = result.filePath;
+                        fileModel.fileText = result.fileText;
                     }
                 },
                 error: function (erro) {

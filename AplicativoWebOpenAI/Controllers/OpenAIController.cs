@@ -7,6 +7,8 @@ using System.Text;
 using System.Configuration;
 using OpenAI.Threads;
 using AplicativoWebOpenAI.Models;
+using Newtonsoft;
+using System.Text.Json;
 
 namespace AplicativoWebOpenAI.Controllers
 {
@@ -34,13 +36,15 @@ namespace AplicativoWebOpenAI.Controllers
         /// <response code="200">Sucess</response>
         [HttpGet]
         [Route("GetAISentence")]
-        public async Task<JsonResult> GetAISentence(string question, FileModel file)
+        public async Task<JsonResult> GetAISentence(string dados)
         {
             try
             {
                 string key = Configuration.GetValue<string>("OpenAI:Key");
 
-                var result = await OpenAIService.GetAISentence(question, key, file);
+                FileModel file = JsonSerializer.Deserialize<FileModel>(dados);
+
+                var result = await OpenAIService.GetAISentence(file.question, key, file);
 
                 return Json(result);
             }
@@ -59,43 +63,18 @@ namespace AplicativoWebOpenAI.Controllers
         /// <response code="200">Sucess</response>
         [HttpPost]
         [Route("PostUserFile")]
-        public async Task<FileModel> PostUserFile(List<IFormFile> file)
+        public async Task<JsonResult> PostUserFile(List<IFormFile> file)
         {
             try
             {
                 var result = await FileReaderService.UploadFile(file[0]);
 
-                return result;
+                return Json(result);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
-        ///// <summary>
-        ///// Contact AI with a question
-        ///// </summary>
-        ///// <param name="text">Your question to AI</param>
-        ///// <returns>
-        ///// </returns>
-        ///// <response code="200">Sucess</response>
-        //[HttpGet]
-        //[Route("GetSentence")]
-        //public async Task<JsonResult> GetAISentence(string text)
-        //{
-        //    try
-        //    {
-        //        string key = Configuration.GetValue<string>("OpenAI:Key");
-
-        //        var result = await OpenAIService.GetAISentence(text, key);
-
-        //        return Json(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
     }
 }

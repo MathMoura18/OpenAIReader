@@ -13,10 +13,7 @@ namespace AplicativoWebOpenAI.Services
         public static string ReadFile(FileModel model)
         {
             try
-            {
-                if (model == null)
-                    return "Error in reading the file: File is null";
-                
+            {                
                 string pdfText = "";
 
                 using (PdfReader reader = new PdfReader(model.filePath))
@@ -44,13 +41,16 @@ namespace AplicativoWebOpenAI.Services
 
         public async static Task<FileModel> UploadFile(IFormFile postedFile)
         {
+            if (postedFile == null)
+                throw new Exception("Error in reading the file: File is null");
+
             try
             {
                 FileModel model = new FileModel();
 
                 model.filePath = Path.Combine("Files/");
-                string fullPath = Path.GetFullPath(model.filePath);
 
+                string fullPath = Path.GetFullPath(model.filePath);
                 if (!Directory.Exists(fullPath))
                     Directory.CreateDirectory(model.filePath);
 
@@ -64,6 +64,8 @@ namespace AplicativoWebOpenAI.Services
 
                 fullPath += Path.GetFileName(postedFile.FileName);
                 model.filePath = fullPath;
+
+                model.fileText = ReadFile(model);
 
                 return model;
             }
