@@ -26,14 +26,6 @@ namespace AplicativoWebOpenAI.Controllers
             return View();
         }
 
-        /// <summary>
-        /// Contact AI with a question
-        /// </summary>
-        /// <param name="question">Your question to AI</param>
-        /// <param name="pdfText">File Text</param>
-        /// <returns>
-        /// </returns>
-        /// <response code="200">Sucess</response>
         [HttpGet]
         [Route("GetAISentence")]
         public async Task<JsonResult> GetAISentence(string dados)
@@ -57,13 +49,6 @@ namespace AplicativoWebOpenAI.Controllers
             }
         }
 
-        /// <summary>
-        /// Download the user file
-        /// </summary>
-        /// <param name="file">User file</param>
-        /// <returns>
-        /// </returns>
-        /// <response code="200">Sucess</response>
         [HttpPost]
         [Route("PostUserFile")]
         public async Task<JsonResult> PostUserFile(List<IFormFile> file)

@@ -18,42 +18,15 @@ using System;
 using UglyToad.PdfPig.Graphics;
 using static System.Net.Mime.MediaTypeNames;
 using LangChain.Splitters.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AplicativoWebOpenAI.Services
 {
     public class OpenAIService
     {
-        public async static Task<string> GetSentenceFromUserFile(string AIKey, string question, string pdfText, string filePath)
-        {
-            try
-            {
-                var provider = new OpenAiProvider(AIKey);
-
-                var llm = new OpenAiChatModel(provider, "gpt-4");
-                var embeddingModel = new TextEmbeddingV3LargeModel(provider);
-
-                var answer = await llm.GenerateAsync(
-                $"""
-                 Use the following pieces of context to answer the question at the end.
-                 If the answer is not in context then just say that you don't know, don't try to make up an answer.
-
-                 This is a file converted to String: {pdfText}
-
-                 Question: {question}
-                 Helpful Answer: I did not understand your question, please write it again.
-                 """, cancellationToken: CancellationToken.None).ConfigureAwait(false);
-
-                return answer;
-            }
-            catch (Exception ex)
-            {
-                return $"Error in calling AI API: {ex}";
-            }
-        }
-
         public async static Task<string> GetAISentence(string question, string key, FileModel file)
         {            
-            if (file == null || String.IsNullOrEmpty(file.fileText))
+            if (file == null || string.IsNullOrEmpty(file.fileText))
                 return "Olá! Por favor, forneça o documento que você gostaria que eu lesse e sobre o qual você gostaria de fazer perguntas.";
             
             try
@@ -68,7 +41,7 @@ namespace AplicativoWebOpenAI.Services
 
                     Message messageSystem = new Message();
                     messageSystem.role = "system";
-                    messageSystem.content = $"You are a PDF Reader and answer questions about documents. After give your final answer, also write exactly from which part you took it to answer the question, write like this 'Source: (part from document)'. This is a document converted to String: {file.fileText}";
+                    messageSystem.content = $"You are a PDF Reader and answer questions about documents. After give your final answer, also write exactly from which part you took it to answer the question, write like this '`: (part from document)'. This is a document converted to String: {file.fileText}";
                     listMessageModel.Add(messageSystem);
 
                     Message messageUser = new Message();
@@ -88,12 +61,43 @@ namespace AplicativoWebOpenAI.Services
                 }
 
                 var promptResponse = result.choices.First();
-                return promptResponse.message.content;
+
+                string finalresponse = promptResponse.message.content;
+                
+                return finalresponse;
             }
             catch (Exception ex)
             {
                 return $"Error in calling AI API: {ex}";
             }
         }
+
+        //public async static Task<string> GetSentenceFromUserFile(string AIKey, string question, string pdfText, string filePath)
+        //{
+        //    try
+        //    {
+        //        var provider = new OpenAiProvider(AIKey);
+
+        //        var llm = new OpenAiChatModel(provider, "gpt-4");
+        //        var embeddingModel = new TextEmbeddingV3LargeModel(provider);
+
+        //        var answer = await llm.GenerateAsync(
+        //        $"""
+        //         Use the following pieces of context to answer the question at the end.
+        //         If the answer is not in context then just say that you don't know, don't try to make up an answer.
+
+        //         This is a file converted to String: {pdfText}
+
+        //         Question: {question}
+        //         Helpful Answer: I did not understand your question, please write it again.
+        //         """, cancellationToken: CancellationToken.None).ConfigureAwait(false);
+
+        //        return answer;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return $"Error in calling AI API: {ex}";
+        //    }
+        //}
     }
 }

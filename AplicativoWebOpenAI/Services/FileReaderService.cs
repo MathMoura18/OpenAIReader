@@ -22,7 +22,8 @@ namespace AplicativoWebOpenAI.Services
                     for (int pagenumber = 1; pagenumber <= reader.NumberOfPages; pagenumber++)
                     {
                         ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
-                        if(pagenumber > 1)
+
+                        if (pagenumber > 1)
                             pdfText += $".\n Page {pagenumber}: \n";
                         
                         pdfText += PdfTextExtractor.GetTextFromPage(reader, pagenumber, strategy);
