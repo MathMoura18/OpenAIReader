@@ -30,9 +30,8 @@ namespace AplicativoWebOpenAI.Services
                         pdfText += Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(pdfText)));
                     }
                 }
-                model.fileText = pdfText;
 
-                return model.fileText;
+                return pdfText;
             }
             catch (Exception ex)
             {

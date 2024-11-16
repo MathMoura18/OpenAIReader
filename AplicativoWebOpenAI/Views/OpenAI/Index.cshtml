@@ -254,16 +254,12 @@
                 message.innerHTML = html;
                 chatContainer.append(message);
                 
-                fileModel.question = text;
-
-                let dados = JSON.stringify(fileModel);
-
                 $.ajax({
                     type: "GET",
                     dataType: 'json',
                     url: '@Url.Action("GetAISentence", "OpenAI")',
                     data: {
-                        dados: dados
+                        question: text
                     },
                     success: function (result) {
                         if (result.includes("`:")) {
@@ -311,12 +307,6 @@
                         let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
                         message.innerHTML = html;
                         // body.append(message)
-
-                        console.log(`${erro.statusText} ${erro.responseText}`);
-                    }
-                    else{
-                        fileModel.fileName = result.fileName;
-                        fileModel.filePath = result.filePath;
                     }
                 },
                 error: function (erro) {

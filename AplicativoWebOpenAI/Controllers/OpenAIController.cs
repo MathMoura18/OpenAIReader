@@ -26,20 +26,23 @@ namespace AplicativoWebOpenAI.Controllers
             return View();
         }
 
+        private static string documentAsString;
+
         [HttpGet]
         [Route("GetAISentence")]
-        public async Task<JsonResult> GetAISentence(string dados)
+        public async Task<JsonResult> GetAISentence(string question)
         {
             try
             {
+                if(String.IsNullOrEmpty(question))
+                    throw new ArgumentNullException("Question is null.");
+
+                if (String.IsNullOrEmpty(documentAsString))
+                    throw new ArgumentNullException("Was not possible to read the document.");
+
                 string key = Configuration.GetValue<string>("OpenAI:Key");
 
-                FileModel file = JsonSerializer.Deserialize<FileModel>(dados);
-
-                if(String.IsNullOrEmpty(file.fileText)) 
-                    file.fileText = FileReaderService.ReadFile(file);
-
-                var result = await OpenAIService.GetAISentence(file.question, key, file);
+                var result = await OpenAIService.GetAISentence(question, key, documentAsString);
 
                 return Json(result);
             }
@@ -55,9 +58,10 @@ namespace AplicativoWebOpenAI.Controllers
         {
             try
             {
-                var result = await FileReaderService.UploadFile(file[0]);
+                var fileModel = await FileReaderService.UploadFile(file[0]);
+                documentAsString = FileReaderService.ReadFile(fileModel);
 
-                return Json(result);
+                return Json(fileModel);
             }
             catch (Exception ex)
             {

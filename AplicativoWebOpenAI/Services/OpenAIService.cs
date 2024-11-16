@@ -24,11 +24,8 @@ namespace AplicativoWebOpenAI.Services
 {
     public class OpenAIService
     {
-        public async static Task<string> GetAISentence(string question, string key, FileModel file)
-        {            
-            if (file == null || string.IsNullOrEmpty(file.fileText))
-                return "Olá! Por favor, forneça o documento que você gostaria que eu lesse e sobre o qual você gostaria de fazer perguntas.";
-            
+        public async static Task<string> GetAISentence(string question, string key, string documentAsString)
+        {                   
             try
             {                
                 var result = new OpenAIViewModel();
@@ -41,7 +38,7 @@ namespace AplicativoWebOpenAI.Services
 
                     Message messageSystem = new Message();
                     messageSystem.role = "system";
-                    messageSystem.content = $"You are a PDF Reader and answer questions about documents. After give your final answer, also write exactly from which part you took it to answer the question, write like this '`: (part from document)'. This is a document converted to String: {file.fileText}";
+                    messageSystem.content = $"You are a PDF Reader and answer questions about documents. After give your final answer, also write exactly from which part you took it to answer the question, write like this 'Source: (part from document)'. This is the user document converted to String: {documentAsString}";
                     listMessageModel.Add(messageSystem);
 
                     Message messageUser = new Message();
@@ -63,12 +60,22 @@ namespace AplicativoWebOpenAI.Services
                 var promptResponse = result.choices.First();
 
                 string finalresponse = promptResponse.message.content;
+
+                if (finalresponse.Contains("Source:")){
+
+                }
+
+                int index = finalresponse.IndexOf("Source:");
+
+                string answerSource = finalresponse.Substring(index);
                 
+                finalresponse = finalresponse.Remove(index).Trim();
+
                 return finalresponse;
             }
             catch (Exception ex)
             {
-                return $"Error in calling AI API: {ex}";
+                return $"Error calling OpenAI API: {ex}";
             }
         }
 
