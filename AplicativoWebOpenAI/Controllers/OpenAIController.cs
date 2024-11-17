@@ -32,14 +32,14 @@ namespace AplicativoWebOpenAI.Controllers
         [Route("GetAISentence")]
         public async Task<JsonResult> GetAISentence(string question)
         {
+            if (String.IsNullOrEmpty(question))
+                throw new ArgumentNullException("Question is null.");
+
+            if (String.IsNullOrEmpty(documentAsString))
+                throw new ArgumentNullException("Was not possible to read the document.");
+
             try
-            {
-                if(String.IsNullOrEmpty(question))
-                    throw new ArgumentNullException("Question is null.");
-
-                if (String.IsNullOrEmpty(documentAsString))
-                    throw new ArgumentNullException("Was not possible to read the document.");
-
+            {             
                 string key = Configuration.GetValue<string>("OpenAI:Key");
 
                 var result = await OpenAIService.GetAISentence(question, key, documentAsString);

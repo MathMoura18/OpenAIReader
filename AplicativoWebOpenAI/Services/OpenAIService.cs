@@ -1,31 +1,16 @@
 ﻿using AplicativoWebOpenAI.Models;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using OpenAI_API.Models;
 using System.Text;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
-using LangChain;
-using LangChain.DocumentLoaders;
-using LangChain.Providers.OpenAI.Predefined;
-using LangChain.Providers.OpenAI;
-using LangChain.Databases.Sqlite;
-using LangChain.Extensions;
-using iTextSharp.text.pdf;
-using iTextSharp.text.pdf.parser;
-using System;
-using UglyToad.PdfPig.Graphics;
-using static System.Net.Mime.MediaTypeNames;
-using LangChain.Splitters.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AplicativoWebOpenAI.Services
 {
     public class OpenAIService
     {
+        static List<Message> listMessageModel = new List<Message>();
+        
         public async static Task<string> GetAISentence(string question, string key, string documentAsString)
-        {                   
+        {           
             try
             {                
                 var result = new OpenAIViewModel();
@@ -33,8 +18,6 @@ namespace AplicativoWebOpenAI.Services
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", key);
-
-                    List<Message> listMessageModel = new List<Message>();
 
                     Message messageSystem = new Message();
                     messageSystem.role = "system";
@@ -53,7 +36,7 @@ namespace AplicativoWebOpenAI.Services
                     var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
                     var response = await httpClient.PostAsync("https://api.openai.com/v1/chat/completions", content);
-
+                
                     result = await response.Content.ReadFromJsonAsync<OpenAIViewModel>();
                 }
 
@@ -62,14 +45,10 @@ namespace AplicativoWebOpenAI.Services
                 string finalresponse = promptResponse.message.content;
 
                 if (finalresponse.Contains("Source:")){
-
-                }
-
-                int index = finalresponse.IndexOf("Source:");
-
-                string answerSource = finalresponse.Substring(index);
-                
-                finalresponse = finalresponse.Remove(index).Trim();
+                    int index = finalresponse.IndexOf("Source:");
+                    string answerSource = finalresponse.Substring(index);
+                    finalresponse = finalresponse.Remove(index).Trim();
+                }                
 
                 return finalresponse;
             }
