@@ -1,16 +1,26 @@
 ﻿using AplicativoWebOpenAI.Models;
 using Microsoft.Extensions.Options;
+using Microsoft.SemanticKernel.ChatCompletion;
 using Newtonsoft.Json;
 using System.Text;
+using System.Text.Json;
 
 namespace AplicativoWebOpenAI.Services
 {
     public class OpenAIService
     {
-        static List<Message> listMessageModel = new List<Message>();
-        
+        static List<Message> chatHistory = new List<Message>();
         public async static Task<string> GetAISentence(string question, string key, string documentAsString)
-        {           
+        {   
+            if (String.IsNullOrEmpty(question))
+                throw new ArgumentNullException("The user input is null");            
+            
+            if (String.IsNullOrEmpty(key))
+                throw new ArgumentNullException("OpenAI API key is null");            
+            
+            if (String.IsNullOrEmpty(documentAsString))
+                throw new ArgumentNullException("Document as String is null");
+        
             try
             {                
                 var result = new OpenAIViewModel();
@@ -18,19 +28,12 @@ namespace AplicativoWebOpenAI.Services
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", key);
+    
+                    chatHistory.Add(new Message("system", $"You are a PDF Reader and answer questions about documents. After give your final answer, also write exactly from which part you took it to answer the question, write like this 'Source: (part from document)'. This is the user document converted to String: {documentAsString}"));
 
-                    Message messageSystem = new Message();
-                    messageSystem.role = "system";
-                    messageSystem.content = $"You are a PDF Reader and answer questions about documents. After give your final answer, also write exactly from which part you took it to answer the question, write like this 'Source: (part from document)'. This is the user document converted to String: {documentAsString}";
-                    listMessageModel.Add(messageSystem);
+                    chatHistory.Add(new Message("user", question));
 
-                    Message messageUser = new Message();
-                    messageUser.role = "user";
-                    messageUser.content = question;
-
-                    listMessageModel.Add(messageUser);
-
-                    var model = new OpenAIInputModel(listMessageModel);
+                    var model = new OpenAIInputModel(chatHistory);
 
                     var requestBody = Newtonsoft.Json.JsonConvert.SerializeObject(model);
                     var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
@@ -38,6 +41,18 @@ namespace AplicativoWebOpenAI.Services
                     var response = await httpClient.PostAsync("https://api.openai.com/v1/chat/completions", content);
                 
                     result = await response.Content.ReadFromJsonAsync<OpenAIViewModel>();
+    
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseString = await response.Content.ReadAsStringAsync();
+                        using var jsonDoc = JsonDocument.Parse(responseString);
+                        string assistantReply = jsonDoc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();
+
+                        // Adiciona a resposta ao histórico
+                        chatHistory.Add(new Message("assistant", assistantReply));
+                    }
+                    else
+                        throw new Exception($"Erro ao acessar a API: {response.StatusCode} - {response.ReasonPhrase}");
                 }
 
                 var promptResponse = result.choices.First();
@@ -48,7 +63,7 @@ namespace AplicativoWebOpenAI.Services
                     int index = finalresponse.IndexOf("Source:");
                     string answerSource = finalresponse.Substring(index);
                     finalresponse = finalresponse.Remove(index).Trim();
-                }                
+                }
 
                 return finalresponse;
             }
@@ -57,33 +72,5 @@ namespace AplicativoWebOpenAI.Services
                 return $"Error calling OpenAI API: {ex}";
             }
         }
-
-        //public async static Task<string> GetSentenceFromUserFile(string AIKey, string question, string pdfText, string filePath)
-        //{
-        //    try
-        //    {
-        //        var provider = new OpenAiProvider(AIKey);
-
-        //        var llm = new OpenAiChatModel(provider, "gpt-4");
-        //        var embeddingModel = new TextEmbeddingV3LargeModel(provider);
-
-        //        var answer = await llm.GenerateAsync(
-        //        $"""
-        //         Use the following pieces of context to answer the question at the end.
-        //         If the answer is not in context then just say that you don't know, don't try to make up an answer.
-
-        //         This is a file converted to String: {pdfText}
-
-        //         Question: {question}
-        //         Helpful Answer: I did not understand your question, please write it again.
-        //         """, cancellationToken: CancellationToken.None).ConfigureAwait(false);
-
-        //        return answer;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return $"Error in calling AI API: {ex}";
-        //    }
-        //}
     }
 }
