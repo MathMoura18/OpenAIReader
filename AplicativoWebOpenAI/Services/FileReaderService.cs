@@ -41,32 +41,48 @@ namespace AplicativoWebOpenAI.Services
 
         public async static Task<FileModel> UploadFile(IFormFile postedFile)
         {
-            if (postedFile == null)
+            if (postedFile == null && postedFile.Length > 0)
                 throw new Exception("Error in reading the file: File is null");
 
             try
             {
-                FileModel model = new FileModel();
+				//FileModel model = new FileModel();
 
-                model.filePath = Path.Combine("Files/");
+				//model.filePath = Path.Combine("Files/");
 
-                string fullPath = Path.GetFullPath(model.filePath);
-                if (!Directory.Exists(fullPath))
-                    Directory.CreateDirectory(model.filePath);
+				//string fullPath = Path.GetFullPath(model.filePath);
+				//if (!Directory.Exists(fullPath))
+				//    Directory.CreateDirectory(model.filePath);
 
-                model.fileName = postedFile.FileName;
-                model.filePath += Path.GetFileName(postedFile.FileName);
+				//model.fileName = postedFile.FileName;
+				//model.filePath += Path.GetFileName(postedFile.FileName);
 
-                using (Stream fileStream = new FileStream(model.filePath, FileMode.Create))
-                {
-                    await postedFile.CopyToAsync(fileStream);
-                }
+				//using (Stream fileStream = new FileStream(model.filePath, FileMode.Create))
+				//{
+				//    await postedFile.CopyToAsync(fileStream);
+				//}
 
-                fullPath += Path.GetFileName(postedFile.FileName);
-                model.filePath = fullPath;
+				//fullPath += Path.GetFileName(postedFile.FileName);
+				//model.filePath = fullPath;
 
-                return model;
-            }
+				//return model;
+
+				FileModel fileModel = new FileModel();
+
+				// Caminho onde o arquivo será salvo no servidor
+				fileModel.filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", postedFile.FileName);
+
+				// Certifique-se de que o diretório "uploads" existe
+				Directory.CreateDirectory(Path.GetDirectoryName(fileModel.filePath));
+
+				// Salvar o arquivo no servidor
+				using (var stream = new FileStream(fileModel.filePath, FileMode.Create))
+				{
+					await postedFile.CopyToAsync(stream);
+				}
+
+				return fileModel;
+			}
             catch (Exception ex) 
             {
                 throw new Exception($"Error uploading the file: {ex}");
