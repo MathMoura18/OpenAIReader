@@ -4,6 +4,3 @@
 
 ### Link
   <a href="https://github.com/MathMoura18" target="_blank">https://openaidocumentreader.azurewebsites.net/</a>
-
-### Credits
-  Oficial Developer: <a href="https://github.com/MathMoura18" target="_blank">Matheus Moura</a>
