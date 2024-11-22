@@ -15,6 +15,7 @@
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Microsoft.SemanticKernel": "1.17.2",
           "OpenAI": "1.11.0",
+          "PdfPig": "0.1.9",
           "bootstrap": "5.3.3",
           "iTextSharp": "5.5.13.4"
         },
@@ -221,7 +222,7 @@
         "dependencies": {
           "Aspose.PDF": "24.5.1",
           "LangChain.DocumentLoaders.Abstractions": "0.15.0",
-          "PdfPig": "0.1.8"
+          "PdfPig": "0.1.9"
         },
         "runtime": {
           "lib/net8.0/LangChain.DocumentLoaders.Pdf.dll": {
@@ -955,35 +956,35 @@
           }
         }
       },
-      "PdfPig/0.1.8": {
+      "PdfPig/0.1.9": {
         "runtime": {
-          "lib/net6.0/UglyToad.PdfPig.Core.dll": {
+          "lib/net8.0/UglyToad.PdfPig.Core.dll": {
+            "assemblyVersion": "0.1.9.0",
+            "fileVersion": "0.1.9.0"
+          },
+          "lib/net8.0/UglyToad.PdfPig.DocumentLayoutAnalysis.dll": {
+            "assemblyVersion": "0.1.9.0",
+            "fileVersion": "0.1.9.0"
+          },
+          "lib/net8.0/UglyToad.PdfPig.Fonts.dll": {
+            "assemblyVersion": "0.1.9.0",
+            "fileVersion": "0.1.9.0"
+          },
+          "lib/net8.0/UglyToad.PdfPig.Package.dll": {
             "assemblyVersion": "0.1.8.0",
             "fileVersion": "0.1.8.0"
           },
-          "lib/net6.0/UglyToad.PdfPig.DocumentLayoutAnalysis.dll": {
-            "assemblyVersion": "0.1.8.0",
-            "fileVersion": "0.1.8.0"
+          "lib/net8.0/UglyToad.PdfPig.Tokenization.dll": {
+            "assemblyVersion": "0.1.9.0",
+            "fileVersion": "0.1.9.0"
           },
-          "lib/net6.0/UglyToad.PdfPig.Fonts.dll": {
-            "assemblyVersion": "0.1.8.0",
-            "fileVersion": "0.1.8.0"
+          "lib/net8.0/UglyToad.PdfPig.Tokens.dll": {
+            "assemblyVersion": "0.1.9.0",
+            "fileVersion": "0.1.9.0"
           },
-          "lib/net6.0/UglyToad.PdfPig.Package.dll": {
-            "assemblyVersion": "0.1.8.0",
-            "fileVersion": "0.1.8.0"
-          },
-          "lib/net6.0/UglyToad.PdfPig.Tokenization.dll": {
-            "assemblyVersion": "0.1.8.0",
-            "fileVersion": "0.1.8.0"
-          },
-          "lib/net6.0/UglyToad.PdfPig.Tokens.dll": {
-            "assemblyVersion": "0.1.8.0",
-            "fileVersion": "0.1.8.0"
-          },
-          "lib/net6.0/UglyToad.PdfPig.dll": {
-            "assemblyVersion": "0.1.8.0",
-            "fileVersion": "0.1.8.0"
+          "lib/net8.0/UglyToad.PdfPig.dll": {
+            "assemblyVersion": "0.1.9.0",
+            "fileVersion": "0.1.9.0"
           }
         }
       },
@@ -2370,12 +2371,12 @@
       "path": "openai.constants/2.0.9",
       "hashPath": "openai.constants.2.0.9.nupkg.sha512"
     },
-    "PdfPig/0.1.8": {
+    "PdfPig/0.1.9": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-lrqrQPAwziQV2E5uImAg1i3SpxDn5XdJ8q3sjRBgEdx1quq1ZftnKNyfp3sTY0J7OxpA14ryGBSSUdoGLGCHjw==",
-      "path": "pdfpig/0.1.8",
-      "hashPath": "pdfpig.0.1.8.nupkg.sha512"
+      "sha512": "sha512-VU27oq5O0rpD+zWiD639xXkSHtsNXqbPpYV0pzYg9VPhDibH1cq1i67f9DuW2WnzDVEti0HipLcZxDhdayIzGg==",
+      "path": "pdfpig/0.1.9",
+      "hashPath": "pdfpig.0.1.9.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
       "type": "package",

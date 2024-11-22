@@ -1,10 +1,9 @@
-﻿using iTextSharp.text.pdf.parser;
-using iTextSharp.text.pdf;
-using System.Text;
+﻿using System.Text;
 using Path = System.IO.Path;
-using Aspose.Pdf.Operators;
 using OpenAI.Threads;
 using AplicativoWebOpenAI.Models;
+using OpenAI.Files;
+using UglyToad.PdfPig;
 
 namespace AplicativoWebOpenAI.Services
 {
@@ -14,24 +13,38 @@ namespace AplicativoWebOpenAI.Services
         {
             try
             {                
-                string pdfText = "";
+				//using (PdfReader reader = new PdfReader(model.filePath))
+				//{
+				//    pdfText += "Page 1: \n";
+				//    for (int pagenumber = 1; pagenumber <= reader.NumberOfPages; pagenumber++)
+				//    {
+				//        ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
 
-                using (PdfReader reader = new PdfReader(model.filePath))
-                {
-                    pdfText += "Page 1: \n";
-                    for (int pagenumber = 1; pagenumber <= reader.NumberOfPages; pagenumber++)
-                    {
-                        ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
+				//        if (pagenumber > 1)
+				//            pdfText += $".\n Page {pagenumber}: \n";
 
-                        if (pagenumber > 1)
-                            pdfText += $".\n Page {pagenumber}: \n";
-                        
-                        pdfText += PdfTextExtractor.GetTextFromPage(reader, pagenumber, strategy);
-                        pdfText += Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(pdfText)));
-                    }
-                }
+				//        pdfText += PdfTextExtractor.GetTextFromPage(reader, pagenumber, strategy);
+				//        pdfText += Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(pdfText)));
+				//    }
+				//}
 
-                return pdfText;
+				var textoCompleto = new StringBuilder();
+
+				using (var pdf = PdfDocument.Open(model.filePath))
+				{
+					textoCompleto.AppendLine($"Page 1: \n");
+
+					int countPage = 2;
+
+					foreach (var pagina in pdf.GetPages())
+					{
+						textoCompleto.AppendLine($".\n Page {countPage}: \n");
+						textoCompleto.AppendLine(pagina.Text); // Processa uma página por vez.
+						countPage++;
+					}
+				}
+
+				return textoCompleto.ToString();
             }
             catch (Exception ex)
             {
