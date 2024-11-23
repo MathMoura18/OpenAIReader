@@ -27,8 +27,7 @@ namespace AplicativoWebOpenAI.Services
 
                 using (var httpClient = new HttpClient())
                 {
-                    // httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", key);
-                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "sk-proj-bev-vMCDTANhCpFt1NUH9Y2ruktIfHzfiw79xq08-N2hiGWyWg9GWr8cuNWs"+"6Msq376J8AV742T3BlbkFJ6qW_kZkj_7cvWSMuqg94oyekPFCkHagGKxla9941xGOzjElmRgf1KiFI3k-PokOd4bbco9xyMA");
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", key);
     
                     if (result.choices == null)
                         chatHistory.Add(new Message("system", $"You are a PDF Reader and answer questions about documents. After give your final answer, also write exactly from which part you took it to answer the question, write like this 'Source: (part from document)'. This is the user document converted to String: {documentAsString}"));
