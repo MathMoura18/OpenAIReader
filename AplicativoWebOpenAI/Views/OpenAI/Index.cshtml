@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="footer-chat" id="input-button" style="gap: 1rem;">
-                <input id="input-chat" type="text" class="write-message" placeholder="Type your message here"></input>
+                <input id="input-chat" type="text" class="write-message" placeholder="Type your message here" tabindex="1"></input>
                 <i class="icon send fa-solid fa-paper-plane clickable" aria-hidden="true" onclick="EnviarPergunta()" id="button-enviar"></i>
             </div>
         </div>
@@ -329,6 +329,7 @@
                 const htmlPDF = `<object data="${base64}" type="application/pdf" style="width: 100%; height: 100%"></object>`;
                 $(".file-container").html(htmlPDF);
             };
+            $("#input-chat").focus();
         }
 
         $("#input-chat").on('keyup', function (e) {
@@ -347,6 +348,7 @@
         function AbleChat() {
             $('#input-chat').prop("disabled", false);
             $('#button-enviar').prop("disabled", false);
+            $("#input-chat").focus();
         }
 
         function DisableChat() {

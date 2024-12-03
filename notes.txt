@@ -1,0 +1,3 @@
+Ideia para OpenAIReader:
+
+Para suportar arquivos enormes, podemos fazer a seguinte função: criar uam função para separar o texto do arquivo por partes (página por página talvez) para o chat fazer a leitura parte por parte, para que ao invés de chamar uma vez com o texto inteiro do arquivo, possamos fazer chamadas diferentes para cada parte separada do texto.	
