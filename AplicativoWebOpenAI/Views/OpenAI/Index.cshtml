@@ -2,7 +2,7 @@
     ViewData["Title"] = "Home";
 }
 <div class="home-container">
-    <div class="section">
+    <div class="section updateFile-container">
         <div class="file-container">
             <form asp-action="" method="post" enctype="multipart/form-data" id="form-file">
                 <input type="file" name="file" id="input-file" />
@@ -14,6 +14,12 @@
 
 
 <style>
+    .updateFile-container{
+        background-image: url("/assets/output-onlinepngtools.png");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    
     #chat-conteiner {
         margin-bottom: 0px;
     }
@@ -297,27 +303,27 @@
                     reader.onload = function () {
                         let base64 = reader.result;
                         $(".home-container").html(`<div class="section">
-                                                            <div class="file-container">
-                                                                <object data="${base64}" type="application/pdf" style="width: 100%; height: 100%"></object>
-                                                            </div>
+                                                        <div class="file-container">
+                                                            <object data="${base64}" type="application/pdf" style="width: 100%; height: 100%"></object>
                                                         </div>
-                                                        <div class="section">
-                                                            <div class="chat-box">
-                                                                <div id="chat-conteiner" class="chat">
-                                                                    <div class="messages-chat">
-                                                                        <div class="message">
-                                                                            <div class="response" id="gptResponse">
-                                                                                <strong>ChatGPT:</strong><p class="text" id="gpt-text">Hello! How can I assist you today?</p>
-                                                                            </div>
+                                                    </div>
+                                                    <div class="section">
+                                                        <div class="chat-box">
+                                                            <div id="chat-conteiner" class="chat">
+                                                                <div class="messages-chat">
+                                                                    <div class="message">
+                                                                        <div class="response" id="gptResponse">
+                                                                            <strong>ChatGPT:</strong><p class="text" id="gpt-text">Hello! How can I assist you today?</p>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="footer-chat" id="input-button" style="gap: 1rem;">
-                                                                        <input id="input-chat" type="text" class="write-message" placeholder="Type your message here" tabindex="1"></input>
-                                                                        <i class="icon send fa-solid fa-paper-plane clickable" aria-hidden="true" onclick="EnviarPergunta()" id="button-enviar"></i>
-                                                                    </div>
+                                                                </div>
+                                                                <div class="footer-chat" id="input-button" style="gap: 1rem;">
+                                                                    <input id="input-chat" type="text" class="write-message" placeholder="Type your message here" tabindex="1"></input>
+                                                                    <i class="icon send fa-solid fa-paper-plane clickable" aria-hidden="true" onclick="EnviarPergunta()" id="button-enviar"></i>
                                                                 </div>
                                                             </div>
-                                                        </div>`);
+                                                        </div>
+                                                    </div>`);
                     };
 
                     $("#input-chat").focus();

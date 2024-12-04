@@ -20,7 +20,6 @@
 
         header {
             font-family: 'Montserrat', sans-serif;
-            background-color: white;
             text-align: center;
             padding: 6px 0;
         }
@@ -35,7 +34,6 @@
             padding: 1em;
             gap: 1rem;
             width: 100vw;
-            background-color: white;
         }
 
         .section {
@@ -45,6 +43,7 @@
             border: 2px solid #ccc;
             border-radius: 5px;
             height: 87vh;
+            background-color: #F0F8FF;
         }
 
         .file-container {
@@ -90,7 +89,7 @@
         }
     </style>
 </head>
-<body>
+<body style="background-color:#212121">
     <header class="background-topo">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow" style="padding: 0px;">
             <div class="container-fluid" style="justify-content:space-around">
@@ -109,20 +108,13 @@
         </nav>
     </header>
     <div class="container">
-        <main class="">
+        <main style="background-color:#212121; justify-content:center">
             @RenderBody()
         </main>
     </div>
-
-@*     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - AplicativoWebOpenAI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer> *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    
 </body>
 </html>
