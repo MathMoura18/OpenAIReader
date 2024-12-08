@@ -50,12 +50,31 @@ namespace AplicativoWebOpenAI.Services
             {
                 throw new Exception($"Error in reading the file: {ex}");
             }
+        }        
+		
+		public static string FileToBase64(IFormFile file)
+        {
+            try
+            {
+                using var memoryStream = new MemoryStream();
+                file.CopyTo(memoryStream);
+                byte[] fileBytes = memoryStream.ToArray();
+
+                // Converte os bytes para Base64
+                string base64String = Convert.ToBase64String(fileBytes);
+
+				return base64String;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error in FileToBase64: {ex}");
+            }
         }
 
         public async static Task<FileModel> UploadFile(IFormFile postedFile)
         {
             if (postedFile == null && postedFile.Length > 0)
-                throw new Exception("Error in reading the file: File is null");
+                throw new Exception("Error in UploadFile: File is null");
 
             try
             {
@@ -98,7 +117,7 @@ namespace AplicativoWebOpenAI.Services
 			}
             catch (Exception ex) 
             {
-                throw new Exception($"Error uploading the file: {ex}");
+                throw new Exception($"Error in UploadFile: {ex}");
             }
         }
     }

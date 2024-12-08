@@ -1,17 +1,30 @@
-﻿@{
-    ViewData["Title"] = "Home";
+﻿@model FileModel
+
+@{
+    ViewData["Title"] = "Document Reader";
 }
-<div class="home-container">
-    <div class="section updateFile-container">
-        <div class="file-container">
-            <form asp-action="" method="post" enctype="multipart/form-data" id="form-file">
-                <input type="file" name="file" id="input-file" />
-                <label for="input-file"><i class="fa-solid fa-upload"></i>Upload File</label>
-            </form>
+<div class="section">
+    <div class="file-container">
+        <object data="@Model.fileBase64" type="application/pdf" style="width: 100%; height: 100%"></object>
+    </div>
+</div>
+<div class="section">
+    <div class="chat-box">
+        <div id="chat-conteiner" class="chat">
+            <div class="messages-chat">
+                <div class="message">
+                    <div class="response" id="gptResponse">
+                        <strong>ChatGPT:</strong><p class="text" id="gpt-text">Hello! How can I assist you today?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-chat" id="input-button" style="gap: 1rem;">
+                <input id="input-chat" type="text" class="write-message" placeholder="Type your message here" tabindex="1"></input>
+                <i class="icon send fa-solid fa-paper-plane clickable" aria-hidden="true" onclick="EnviarPergunta()" id="button-enviar"></i>
+            </div>
         </div>
     </div>
 </div>
-
 
 <style>
     .updateFile-container{
@@ -219,19 +232,8 @@
 
 @section Scripts {
     <script>
-        const chatContainer = $(".messages-chat");
-        const fileContainer = $(".file-container");
-        let fileModel = {};
-
-        $('#form-file').submit(function (e) {
-            e.preventDefault();
-
-            let formData = new FormData(this);
-            SendFileToAI(formData);
-        });
-
-        $('#input-file').on("change", function () {
-            $('#form-file').submit();
+        $(document).ready(function () {
+            AbleChat();
         });
 
         function EnviarPergunta() {
@@ -255,9 +257,10 @@
                 $.ajax({
                     type: "GET",
                     dataType: 'json',
-                    url: '@Url.Action("GetAISentence", "OpenAI")',
+                    url: '@Url.Action("GetAISentence", "DocumentChat")',
                     data: {
-                        question: text
+                        question: text,
+                        documentText: @Model.fileText
                     },
                     success: function (result) {
                         const message = document.createElement('div');
@@ -278,66 +281,6 @@
                 });
             }
             AbleChat()
-        }
-
-        function SendFileToAI(formData) {
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("PostUserFile", "OpenAI")',
-                data: formData,
-                contentType: false,
-                processData: false,
-                cache: false,
-                success: function (result) {
-                    if (result == null) {
-                        const message = document.createElement('div');
-                        message.classList.add("chat")
-                        let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
-                        message.innerHTML = html;
-                        // body.append(message)
-                    }
-
-                    let file = document.querySelector('input[type="file"]').files[0];
-                    var reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = function () {
-                        let base64 = reader.result;
-                        $(".home-container").html(`<div class="section">
-                                                        <div class="file-container">
-                                                            <object data="${base64}" type="application/pdf" style="width: 100%; height: 100%"></object>
-                                                        </div>
-                                                    </div>
-                                                    <div class="section">
-                                                        <div class="chat-box">
-                                                            <div id="chat-conteiner" class="chat">
-                                                                <div class="messages-chat">
-                                                                    <div class="message">
-                                                                        <div class="response" id="gptResponse">
-                                                                            <strong>ChatGPT:</strong><p class="text" id="gpt-text">Hello! How can I assist you today?</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="footer-chat" id="input-button" style="gap: 1rem;">
-                                                                    <input id="input-chat" type="text" class="write-message" placeholder="Type your message here" tabindex="1"></input>
-                                                                    <i class="icon send fa-solid fa-paper-plane clickable" aria-hidden="true" onclick="EnviarPergunta()" id="button-enviar"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>`);
-                    };
-
-                    $("#input-chat").focus();
-                },
-                error: function (erro) {
-                    const message = document.createElement('div');
-                    message.classList.add("chat")
-                    let html = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Error</button><div class="modal fade bd-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"> Error: ${ erro.statusText }</div></div></div>';
-                    message.innerHTML = html;
-                    // body.append(message)
-
-                    console.log(`${erro.statusText} ${erro.responseText}`);
-                }
-            });
         }
 
         $("#input-chat").on('keyup', function (e) {
