@@ -44,7 +44,9 @@ namespace AplicativoWebOpenAI.Services
 					}
 				}
 
-				return textoCompleto.ToString();
+                DeleteFile(model.filePath);
+
+                return textoCompleto.ToString();
             }
             catch (Exception ex)
             {
@@ -78,27 +80,6 @@ namespace AplicativoWebOpenAI.Services
 
             try
             {
-				//FileModel model = new FileModel();
-
-				//model.filePath = Path.Combine("Files/");
-
-				//string fullPath = Path.GetFullPath(model.filePath);
-				//if (!Directory.Exists(fullPath))
-				//    Directory.CreateDirectory(model.filePath);
-
-				//model.fileName = postedFile.FileName;
-				//model.filePath += Path.GetFileName(postedFile.FileName);
-
-				//using (Stream fileStream = new FileStream(model.filePath, FileMode.Create))
-				//{
-				//    await postedFile.CopyToAsync(fileStream);
-				//}
-
-				//fullPath += Path.GetFileName(postedFile.FileName);
-				//model.filePath = fullPath;
-
-				//return model;
-
 				FileModel fileModel = new FileModel();
 
 				// Caminho onde o arquivo será salvo no servidor
@@ -118,6 +99,30 @@ namespace AplicativoWebOpenAI.Services
             catch (Exception ex) 
             {
                 throw new Exception($"Error in UploadFile: {ex}");
+            }
+        }
+
+		private static Boolean DeleteFile(string filePath)
+		{
+            try
+            {
+                if (filePath == null && filePath.Length > 0)
+                    throw new Exception("Error in UploadFile: File path is null");
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch(Exception ex)  
+            {
+                throw ex;
             }
         }
     }
